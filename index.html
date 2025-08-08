@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yoru: Eclipse of Two Tails</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config + dark mode class strategy
+    tailwind.config = { darkMode: 'class' };
+  </script>
+  <style>
+    html, body { scroll-behavior: smooth; }
+    /* prevent iOS tap highlight on buttons/links */
+    * { -webkit-tap-highlight-color: transparent; }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-900 dark:text-slate-100 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-950/60 border-b border-slate-200/70 dark:border-slate-800/60">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-3 group">
+        <div class="relative w-10 h-10">
+          <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-indigo-500 to-rose-500 blur-sm opacity-60"></div>
+          <div class="absolute inset-0 rounded-2xl bg-slate-900"></div>
+          <div class="absolute inset-0 grid place-items-center text-2xl">🐈‍⬛</div>
+        </div>
+        <div>
+          <div class="text-lg font-semibold tracking-wide group-hover:opacity-90">Yoru: Eclipse of Two Tails</div>
+          <div class="text-xs opacity-70">A narrative indie rooted in Japanese folklore</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#hook" class="text-sm tracking-wide opacity-80 hover:opacity-100">Hook</a>
+        <a href="#gameplay" class="text-sm tracking-wide opacity-80 hover:opacity-100">Gameplay</a>
+        <a href="#world" class="text-sm tracking-wide opacity-80 hover:opacity-100">World</a>
+        <a href="#media" class="text-sm tracking-wide opacity-80 hover:opacity-100">Media</a>
+        <a href="#roadmap" class="text-sm tracking-wide opacity-80 hover:opacity-100">Roadmap</a>
+        <a href="#team" class="text-sm tracking-wide opacity-80 hover:opacity-100">Team</a>
+        <a href="#press" class="text-sm tracking-wide opacity-80 hover:opacity-100">Press</a>
+        <a href="#" id="steamTop" class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold shadow-sm border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
+        <button id="themeToggle" class="ml-2 rounded-xl px-3 py-2 border border-slate-300/60 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-800">☀️</button>
+      </nav>
+
+      <button id="menuBtn" class="md:hidden p-2 rounded-lg border border-slate-300/60 dark:border-slate-700/60">☰</button>
+    </div>
+
+    <div id="mobileMenu" class="md:hidden transition-[max-height] duration-300 overflow-hidden max-h-0">
+      <div class="px-4 pb-3 flex flex-col gap-3">
+        <a href="#hook" class="py-1 opacity-80">Hook</a>
+        <a href="#gameplay" class="py-1 opacity-80">Gameplay</a>
+        <a href="#world" class="py-1 opacity-80">World</a>
+        <a href="#media" class="py-1 opacity-80">Media</a>
+        <a href="#roadmap" class="py-1 opacity-80">Roadmap</a>
+        <a href="#team" class="py-1 opacity-80">Team</a>
+        <a href="#press" class="py-1 opacity-80">Press</a>
+        <a href="#" id="steamMobile" class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold shadow-sm border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
+        <button id="themeToggleM" class="rounded-xl px-3 py-2 border border-slate-300/60 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-800">☀️ Light</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="relative min-h-[72vh] grid place-items-center overflow-hidden">
+    <canvas id="yoru-stars" class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen"></canvas>
+    <div class="absolute -top-24 right-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-amber-200/30 via-rose-300/20 to-indigo-400/20 blur-3xl"></div>
+    <div class="absolute -bottom-24 left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-sky-300/20 via-emerald-300/20 to-fuchsia-300/20 blur-3xl"></div>
+
+    <div class="relative z-10 mx-auto max-w-5xl px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.1]">
+        Yoru: <span class="opacity-90">Eclipse of Two Tails</span>
+      </h1>
+      <p class="mt-4 text-lg md:text-xl opacity-90 max-w-3xl mx-auto">
+        A narrative action-adventure where every choice bends the world toward <span class="font-semibold">Light</span> or <span class="font-semibold">Dark</span>. Guide Yoru, a two-tailed nekomata, through Japanese folklore to uncover her unfinished purpose.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a href="#" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
+        <a href="#media" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-slate-300/60 hover:bg-slate-100 dark:border-slate-700/60 dark:hover:bg-slate-800">Watch Trailer</a>
+        <a href="#press" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-indigo-400/40 bg-indigo-500/10 hover:bg-indigo-500/20">Press Kit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section id="hook" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">The Hook</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Forgive or Burn Souls — the World Remembers</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
+        <p>
+          Each encounter is a moral choice. <b>Forgive</b> spirits through negotiation and empathy to brighten the land, or <b>Punish</b> with combat and flame to feed the moonlit gloom. As Yoru advances, rings ignite on each tail—<b>five rings per tail</b>—mapping your path toward Radiance or Umbra.
+        </p>
+        <ul class="space-y-3 text-sm md:text-base">
+          <li>• <b>Dynamic bi-moral alignment</b>: 0–5 rings on each tail shape mood, music, NPCs, and quests.</li>
+          <li>• <b>Living world reaction</b>: more light brings peace and color; more dark summons eerie hush, long shadows, and a looming moon.</li>
+          <li>• <b>Branching endings</b>: multiple finales based on your twin-tail progression and key vows you keep—or break.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMEPLAY -->
+  <section id="gameplay" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Systems</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Choose Your Path. Build Your Yoru.</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-10">
+        <div class="space-y-6">
+          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+            <div class="text-lg font-semibold">Negotiation & Mercy</div>
+            <p class="mt-1 opacity-90">Parley with restless souls using dialogue, offerings, and lore-tailored rituals to resolve grudges without violence.</p>
+          </div>
+          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+            <div class="text-lg font-semibold">Stylized Combat</div>
+            <p class="mt-1 opacity-90">Claw, dash, and flame-channel through encounters when you choose retribution. Build combos aligned to Light or Dark rings.</p>
+          </div>
+          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+            <div class="text-lg font-semibold">Dual Ability Trees</div>
+            <p class="mt-1 opacity-90">Two synchronized trees—one per tail. Mix ring levels to craft hybrid builds and unique traversal/combat synergies.</p>
+          </div>
+          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+            <div class="text-lg font-semibold">World-State Quests</div>
+            <p class="mt-1 opacity-90">Shrines, bosses, and side stories adapt to your moral tilt. The eclipse finale unlocks when all rings are lit.</p>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-3xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 to-rose-500/10 dark:from-indigo-500/20 dark:to-rose-500/20 shadow-inner">
+          <h3 class="text-xl font-bold">Tail Rings = World Shift</h3>
+          <p class="mt-2 opacity-90">
+            Raise <b>Light Rings</b> to invite warmth, birdsong, and open paths. Raise <b>Dark Rings</b> to bring moonlight, murmurs, and spectral shortcuts. Hybrid paths unlock secret interactions.
+          </p>
+          <div class="mt-6 grid grid-cols-5 gap-2 text-center text-xs">
+            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R1</div>
+            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R2</div>
+            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R3</div>
+            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R4</div>
+            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R5</div>
+            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R1</div>
+            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R2</div>
+            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R3</div>
+            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R4</div>
+            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORLD -->
+  <section id="world" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Atmosphere</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">A Folklore Tapestry of Light and Gloom</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-10 items-start">
+        <p>Wander cedar forests, lantern-lit villages, and shrine-studded ridges inspired by Japanese folklore. Meet guides and tricksters—messenger hares with healing peaches, wary shrine keepers, and a tiger etched like an old woodblock dream. As the eclipse nears, time wavers and Yoru's human form flickers through memory.</p>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 1</div>
+          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 2</div>
+          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 3</div>
+          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 4</div>
+          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 5</div>
+          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 6</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDIA -->
+  <section id="media" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Trailer & Media</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Watch the Trailer. Explore the Sound.</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
+        <div class="aspect-video w-full rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800/60 shadow">
+          <!-- Replace the src with your actual trailer -->
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=yoru-trailer" title="Yoru Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="space-y-4">
+          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+            <div class="font-semibold">Press Kit</div>
+            <p class="opacity-90 text-sm mt-1">Download logos, key art, screenshots, and a fact sheet.</p>
+            <a href="#" class="inline-flex mt-3 rounded-xl px-4 py-2 text-sm font-semibold border border-indigo-400/40 bg-indigo-500/10 hover:bg-indigo-500/20">Download</a>
+          </div>
+          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+            <div class="font-semibold">Wishlist & Follow</div>
+            <p class="opacity-90 text-sm mt-1">Be the first to know about the demo and playtests.</p>
+            <div class="mt-3 flex flex-wrap gap-3">
+              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Steam</a>
+              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-sky-400/40 bg-sky-500/10 hover:bg-sky-500/20">Twitter/X</a>
+              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-pink-400/40 bg-pink-500/10 hover:bg-pink-500/20">Instagram</a>
+              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-red-400/40 bg-red-500/10 hover:bg-red-500/20">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Milestones</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Roadmap to Eclipse</h2>
+      <ol class="mt-6 relative border-s border-slate-300/60 dark:border-slate-700/60 ml-2">
+        <li class="pl-6 py-5 group">
+          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
+          <div class="text-sm uppercase tracking-wider opacity-70">Q3 2025</div>
+          <div class="text-lg font-semibold">Vertical Slice & Trailer</div>
+          <div class="opacity-90">15–20 minute demo with core loop (for festivals & incubators).</div>
+        </li>
+        <li class="pl-6 py-5 group">
+          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
+          <div class="text-sm uppercase tracking-wider opacity-70">Q4 2025</div>
+          <div class="text-lg font-semibold">Playtest & Iteration</div>
+          <div class="opacity-90">Combat tuning, negotiation depth, performance polish.</div>
+        </li>
+        <li class="pl-6 py-5 group">
+          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
+          <div class="text-sm uppercase tracking-wider opacity-70">Q1 2026</div>
+          <div class="text-lg font-semibold">Wishlist Campaign</div>
+          <div class="opacity-90">Steam page live, influencer outreach, press previews.</div>
+        </li>
+        <li class="pl-6 py-5 group">
+          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
+          <div class="text-sm uppercase tracking-wider opacity-70">2026</div>
+          <div class="text-lg font-semibold">Release Window</div>
+          <div class="opacity-90">Final content pass and launch.</div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Studio</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Made by Pectus — Solo Dev Project</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2">
+          <p>Pectus is a solo indie studio led by Asena Hazal in Canada. Yoru blends atmospheric exploration with moral storytelling. Production will partner with contractors for character design, animation, soundtrack, and QA.</p>
+          <ul class="mt-4 space-y-2 text-sm md:text-base opacity-90">
+            <li>• Engine: Unity 6 / URP (demo compatible with 2022 LTS).</li>
+            <li>• Inspirations: Ori, Journey, Little Nightmares, Undertale, Edith Finch.</li>
+            <li>• Platforms: PC first; consoles TBD.</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+          <div class="font-semibold">Looking to Collaborate</div>
+          <p class="mt-1 text-sm opacity-90">Seeking a 3D character artist/animator (fur, wind, spine), concept artist, and composer. Send portfolios below.</p>
+          <a href="#press" class="inline-flex mt-3 rounded-xl px-4 py-2 text-sm font-semibold border border-rose-400/40 bg-rose-500/10 hover:bg-rose-500/20">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESS -->
+  <section id="press" class="scroll-mt-24">
+    <div class="mx-auto max-w-7xl px-4 py-20">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Press & Contact</p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Press Inquiries, Creator Keys, & Business</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-8">
+        <div class="p-6 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+          <div class="font-semibold">Contact</div>
+          <p class="mt-2 opacity-90 text-sm">For interviews, previews, and review keys, email us:</p>
+          <a href="mailto:hello@pectus.studio?subject=Yoru%20Press%20Inquiry" class="mt-3 inline-flex rounded-xl px-4 py-2 text-sm font-semibold border border-slate-300/60 hover:bg-slate-100 dark:border-slate-700/60 dark:hover:bg-slate-800">hello@pectus.studio</a>
+          <div class="mt-4 text-sm opacity-80">Ottawa, Canada • Solo indie • Founded 2025</div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Thanks! Connect to Buttondown/Mailchimp later.');" class="p-6 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
+          <div class="font-semibold">Join the Newsletter</div>
+          <p class="mt-2 opacity-90 text-sm">Get devlogs, playtest invites, and launch updates.</p>
+          <div class="mt-4 flex gap-2">
+            <input type="email" required placeholder="you@email.com" class="flex-1 rounded-xl px-4 py-2 border border-slate-300/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-900/60">
+            <button class="rounded-xl px-4 py-2 text-sm font-semibold border border-emerald-400/40 bg-emerald-500/10 hover:bg-emerald-500/20">Subscribe</button>
+          </div>
+          <p class="mt-2 text-xs opacity-70">No spam. Unsubscribe anytime.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 border-t border-slate-200/70 dark:border-slate-800/60">
+    <div class="mx-auto max-w-7xl px-4 flex flex-col md:flex-row gap-4 md:items-center justify-between">
+      <div class="opacity-80 text-sm">© <span id="year"></span> Pectus Studio. All rights reserved.</div>
+      <div class="flex gap-4 text-sm opacity-80">
+        <a href="#hook">Hook</a>
+        <a href="#gameplay">Gameplay</a>
+        <a href="#world">World</a>
+        <a href="#media">Media</a>
+        <a href="#press">Press</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS: starfield, theme toggle, mobile menu, year -->
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle (persists)
+    const root = document.documentElement;
+    const storageKey = 'yoru-theme';
+    const saved = localStorage.getItem(storageKey);
+    if (saved) root.classList.toggle('dark', saved === 'dark');
+    const setIcon = () => {
+      const dark = root.classList.contains('dark');
+      const btn = document.getElementById('themeToggle');
+      const btnM = document.getElementById('themeToggleM');
+      if (btn) btn.textContent = dark ? '☀️' : '🌙';
+      if (btnM) btnM.textContent = dark ? '☀️ Light' : '🌙 Dark';
+    };
+    setIcon();
+    function toggleTheme() {
+      const nowDark = !root.classList.contains('dark');
+      root.classList.toggle('dark', nowDark);
+      localStorage.setItem(storageKey, nowDark ? 'dark' : 'light');
+      setIcon();
+    }
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleM')?.addEventListener('click', toggleTheme);
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      mobileMenu.style.maxHeight = mobileMenu.style.maxHeight && mobileMenu.style.maxHeight !== '0px' ? '0px' : '400px';
+    });
+
+    // Starfield
+    (function starfield(){
+      const c = document.getElementById('yoru-stars');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      let w = c.width = window.innerWidth;
+      let h = c.height = Math.max(window.innerHeight * 0.72, 520);
+      const stars = Array.from({ length: Math.floor(w / 8) }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.2 + 0.2,
+        a: Math.random() * Math.PI * 2,
+        s: Math.random() * 0.5 + 0.2,
+      }));
+      let raf;
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        stars.forEach(p=>{
+          p.a += 0.02 * p.s;
+          const tw = (Math.sin(p.a)+1)/2;
+        ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r + tw*0.6, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(255,255,255,${0.25 + tw*0.6})`;
+          ctx.fill();
+        });
+        raf = requestAnimationFrame(draw);
+      }
+      draw();
+      window.addEventListener('resize', () => {
+        w = c.width = window.innerWidth;
+        h = c.height = Math.max(window.innerHeight * 0.72, 520);
+      });
+      window.addEventListener('visibilitychange', ()=>{
+        if (document.hidden) cancelAnimationFrame(raf); else draw();
+      });
+    })();
+  </script>
+</body>
+</html>
