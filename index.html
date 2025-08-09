@@ -391,146 +391,172 @@
     });
 
     // Starfield
-    (function starfieldLiteMagic(){
-  const c = document.getElementById('yoru-stars');
-  if (!c) return;
-  const ctx = c.getContext('2d', { alpha: true });
+   (function starfield(){
+    const c = document.getElementById('yoru-stars');
+    if (!c) return;
+    const ctx = c.getContext('2d', { alpha: true });
 
-  let w,h,dpr, stars=[], animIdx=[], sparkles=[], raf, last=0;
+    let w, h, dpr, stars, sparkles, meteors, raf;
+    const DENSITY = 0.05;        // base: stars per vw (increase for more stars)
+    const TWINKLE_STRENGTH = 0.2; // 0–1 how strong the flicker is
+    const SPARKLE_RATE = 0.001;   // chance per frame to spawn a fairy sparkle
+    const METEOR_RATE  = 0.0001;  // chance per frame to spawn a faint meteor
 
-  // Tweakables
-  const DENSITY = 0.09;        // stars per vw
-  const ANIM_RATIO = 0.45;      // fraction of stars that twinkle
-  const FPS = 30;              // cap to save CPU
-  const TWINKLE = 0.7;        // strength 0..1
-  const SPARKLE_RATE = 0.002; // rare fairy pops
-  const MAX_SPARKLES = 10;
+    function resize() {
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = c.width  = Math.floor(window.innerWidth  * dpr);
+      h = c.height = Math.floor(Math.max(window.innerHeight * 0.72, 520) * dpr);
+      c.style.width  = (w / dpr) + 'px';
+      c.style.height = (h / dpr) + 'px';
 
-  // Cached sprites (huge perf win vs shadowBlur per frame)
-  let starSprite, sparkleSprite;
+      const count = Math.floor((window.innerWidth * DENSITY));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: (Math.random() * 1.4 + 0.3) * dpr,
+        phase: Math.random() * Math.PI * 2,
+        speed: (Math.random() * 0.015 + 0.008) * (0.85 + Math.random()*0.3),
+        baseA: 0.2 + Math.random() * 0.4,
+        hue: 220 + Math.random() * 60, // slight blue-indigo variance
+        glow: 6 + Math.random() * 14
+      }));
 
-  function makeStarSprite(size){
-    const s = Math.ceil(size);
-    const off = document.createElement('canvas');
-    off.width = off.height = s*2;
-    const g = off.getContext('2d');
-    const R = s;
-    const grad = g.createRadialGradient(R,R,0, R,R,R);
-    grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.6,'rgba(255,255,255,0.45)');
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = grad;
-    g.beginPath(); g.arc(R,R,R,0,Math.PI*2); g.fill();
-    return off;
-  }
-
-  function makeSparkleSprite(size){
-    const s = Math.ceil(size);
-    const off = document.createElement('canvas');
-    off.width = off.height = s*3;
-    const g = off.getContext('2d');
-    const R = s*1.2;
-    const grad = g.createRadialGradient(1.5*s,1.5*s,0, 1.5*s,1.5*s,R);
-    grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.6,'rgba(255,255,255,0.35)');
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = grad;
-    g.beginPath(); g.arc(1.5*s,1.5*s,R,0,Math.PI*2); g.fill();
-    return off;
-  }
-
-  function resize(){
-    dpr = Math.max(1, Math.min(2, window.devicePixelRatio||1));
-    w = c.width  = Math.floor(window.innerWidth * dpr);
-    h = c.height = Math.floor(Math.max(window.innerHeight*0.72,520) * dpr);
-    c.style.width  = (w/dpr)+'px';
-    c.style.height = (h/dpr)+'px';
-
-    // sprites based on typical star size
-    starSprite = makeStarSprite(5*dpr);
-    sparkleSprite = makeSparkleSprite(10*dpr);
-
-    const count = Math.floor(window.innerWidth * DENSITY);
-    stars = Array.from({length: count}, () => ({
-      x: Math.random()*w,
-      y: Math.random()*h,
-      s: (0.6 + Math.random()*1.4) * dpr, // scale
-      a: 0.35 + Math.random()*0.5,        // base alpha
-      phase: Math.random()*Math.PI*2,
-      speed: 0.6 + Math.random()*0.9      // twinkle speed multiplier
-    }));
-
-    // pick a subset to animate
-    const idx = [...Array(count).keys()];
-    idx.sort(()=>Math.random()-0.5);
-    animIdx = idx.slice(0, Math.max(1, Math.floor(count*ANIM_RATIO)));
-
-    sparkles = [];
-    draw(0,true); // one immediate draw
-  }
-
-  function maybeSparkle(){
-    if (sparkles.length >= MAX_SPARKLES) return;
-    if (Math.random() < SPARKLE_RATE){
-      const s = stars[(Math.random()*stars.length)|0];
-      sparkles.push({ x:s.x, y:s.y, t:0, life: 40 + (Math.random()*25)|0 });
+      sparkles = []; // short-lived bright fairy twinkles
+      meteors  = []; // very faint shooting stars
     }
-  }
 
-  function draw(ts, force){
-    const dt = ts - last;
-    const frameTime = 1000/FPS;
-    if (!force && dt < frameTime){ raf = requestAnimationFrame(draw); return; }
-    last = ts;
+    function addSparkle(x, y) {
+      const life = 35 + Math.random() * 25;
+      sparkles.push({
+        x, y,
+        r: 1.5 * dpr + Math.random() * (3 * dpr),
+        t: 0,
+        life,
+        rot: Math.random() * Math.PI,
+      });
+    }
 
-    ctx.clearRect(0,0,w,h);
-    ctx.globalCompositeOperation = 'lighter';
+    function addMeteor() {
+      const y = Math.random() * (h * 0.6);
+      meteors.push({
+        x: -40 * dpr,
+        y,
+        vx: (3.5 + Math.random() * 2.5) * dpr,
+        vy: (0.4 + Math.random() * 0.6) * dpr,
+        life: 120 + Math.random() * 80,
+        t: 0
+      });
+    }
 
-    // draw all stars (static alpha), animate only subset scale/alpha a bit
-    for (let i=0;i<stars.length;i++){
-      const st = stars[i];
-      let alpha = st.a;
-      let scale = st.s;
+    function drawStar(s) {
+      s.phase += s.speed;
+      const tw = (Math.sin(s.phase) * 0.5 + 0.5) * TWINKLE_STRENGTH;
+      const a = Math.min(1, s.baseA + tw);
 
-      // cheap twinkle for selected stars
-      // (no trig for most; a few use sin for smoother sparkle)
-      if (i < animIdx.length && animIdx[i] !== undefined){
-        st.phase += 0.06 * st.speed;
-        const tw = (Math.sin(st.phase)*0.5+0.5) * TWINKLE;
-        alpha = Math.min(1, st.a + tw*0.5);
-        scale = st.s * (1 + tw*0.35);
+      ctx.shadowBlur = s.glow;
+      ctx.shadowColor = `hsla(${s.hue}, 90%, 85%, ${a})`;
+      ctx.fillStyle   = `hsla(${s.hue}, 100%, 96%, ${a})`;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r + tw * (1.4 * dpr), 0, Math.PI * 2);
+      ctx.fill();
+
+      // rare: promote to a fairy sparkle
+      if (Math.random() < SPARKLE_RATE) addSparkle(s.x, s.y);
+    }
+
+    function drawSparkle(sp) {
+      sp.t++;
+      const p = sp.t / sp.life;                      // 0..1
+      const pulse = Math.sin(p * Math.PI);           // ease in/out
+      const a = 0.25 + 0.75 * (1 - p) * pulse;
+
+      ctx.save();
+      ctx.translate(sp.x, sp.y);
+      ctx.rotate(sp.rot);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.shadowBlur = 18 * dpr;
+      ctx.shadowColor = `rgba(255,255,255,${a})`;
+
+      // core glow
+      const r = sp.r * (1 + pulse * 1.8);
+      const g = ctx.createRadialGradient(0,0,0, 0,0, r*2.2);
+      g.addColorStop(0,   `rgba(255,255,255,${a})`);
+      g.addColorStop(0.6, `rgba(255,255,255,${a*0.35})`);
+      g.addColorStop(1,   `rgba(255,255,255,0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(0,0, r*2.2, 0, Math.PI*2); ctx.fill();
+
+      // tiny 4-point star glint
+      ctx.globalAlpha = a;
+      const len = r * 1.8, thin = Math.max(0.6, r * 0.18);
+      ctx.fillRect(-len, -thin/2, len*2, thin);
+      ctx.fillRect(-thin/2, -len, thin, len*2);
+
+      ctx.restore();
+    }
+
+    function drawMeteor(m) {
+      m.t++;
+      m.x += m.vx;
+      m.y += m.vy;
+      const p = m.t / m.life;
+      const a = Math.max(0, 0.45 * (1 - p));
+      const tail = 80 * dpr;
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      const grad = ctx.createLinearGradient(m.x - tail, m.y - (m.vy*tail/m.vx), m.x, m.y);
+      grad.addColorStop(0, `rgba(255,255,255,0)`);
+      grad.addColorStop(1, `rgba(255,255,255,${a})`);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.2 * dpr;
+      ctx.beginPath();
+      ctx.moveTo(m.x - tail, m.y - (m.vy*tail/m.vx));
+      ctx.lineTo(m.x, m.y);
+      ctx.stroke();
+
+      ctx.shadowBlur = 12 * dpr;
+      ctx.shadowColor = `rgba(255,255,255,${a})`;
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.beginPath();
+      ctx.arc(m.x, m.y, 1.8 * dpr, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw() {
+      ctx.clearRect(0,0,w,h);
+
+      // blend for nice light accumulation
+      ctx.globalCompositeOperation = 'lighter';
+
+      // stars
+      for (let i=0;i<stars.length;i++) drawStar(stars[i]);
+
+      // sparkles
+      for (let i=sparkles.length-1;i>=0;i--) {
+        drawSparkle(sparkles[i]);
+        if (sparkles[i].t >= sparkles[i].life) sparkles.splice(i,1);
       }
 
-      const size = (starSprite.width * scale) / (10*dpr); // normalize
-      const half = size;
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(starSprite, st.x-half, st.y-half, size*2, size*2);
+      // meteors (very rare and faint)
+      if (Math.random() < METEOR_RATE) addMeteor();
+      for (let i=meteors.length-1;i>=0;i--) {
+        drawMeteor(meteors[i]);
+        if (meteors[i].t >= meteors[i].life || meteors[i].x > w+50*dpr) meteors.splice(i,1);
+      }
+
+      raf = requestAnimationFrame(draw);
     }
-    ctx.globalAlpha = 1;
 
-    // fairy sparkles (few, cheap)
-    maybeSparkle();
-    for (let i=sparkles.length-1;i>=0;i--){
-      const sp = sparkles[i];
-      sp.t++;
-      const p = sp.t/sp.life;
-      const a = (1-p) * (0.6 + 0.4*Math.sin(p*Math.PI));
-      const sz = (1 + 0.6*Math.sin(p*Math.PI)) * 1.0;
-      ctx.globalAlpha = a;
-      const s = 24*dpr*sz;
-      ctx.drawImage(sparkleSprite, sp.x - s/2, sp.y - s/2, s, s);
-      if (sp.t >= sp.life) sparkles.splice(i,1);
-    }
-    ctx.globalAlpha = 1;
+    resize();
+    draw();
 
-    raf = requestAnimationFrame(draw);
-  }
-
-  resize();
-  raf = requestAnimationFrame(draw);
-  window.addEventListener('resize', ()=>{ cancelAnimationFrame(raf); resize(); raf = requestAnimationFrame(draw); });
-  window.addEventListener('visibilitychange', ()=>{ if (document.hidden) cancelAnimationFrame(raf); else { last=0; raf=requestAnimationFrame(draw);} });
-})();
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
+    window.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(raf); else draw();
+    });
+  })();
   </script>
 </body>
 </html>
