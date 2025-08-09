@@ -391,56 +391,146 @@
     });
 
     // Starfield
-    (function starfieldStatic(){
-    const c = document.getElementById('yoru-stars');
-    if (!c) return;
-    const ctx = c.getContext('2d', { alpha: true });
+    (function starfieldLiteMagic(){
+  const c = document.getElementById('yoru-stars');
+  if (!c) return;
+  const ctx = c.getContext('2d', { alpha: true });
 
-    let w, h, dpr, stars = [];
-    const DENSITY = 0.07; // stars per vw (adjust for more/less)
+  let w,h,dpr, stars=[], animIdx=[], sparkles=[], raf, last=0;
 
-    function resize() {
-      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      w = c.width  = Math.floor(window.innerWidth  * dpr);
-      h = c.height = Math.floor(Math.max(window.innerHeight * 0.72, 520) * dpr);
-      c.style.width  = (w / dpr) + 'px';
-      c.style.height = (h / dpr) + 'px';
+  // Tweakables
+  const DENSITY = 0.09;        // stars per vw
+  const ANIM_RATIO = 0.3;      // fraction of stars that twinkle
+  const FPS = 30;              // cap to save CPU
+  const TWINKLE = 0.55;        // strength 0..1
+  const SPARKLE_RATE = 0.0012; // rare fairy pops
+  const MAX_SPARKLES = 8;
 
-      const count = Math.floor(window.innerWidth * DENSITY);
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: (Math.random() * 1.2 + 0.3) * dpr,
-        a: 0.35 + Math.random() * 0.45,
-        glow: 4 + Math.random() * 10
-      }));
+  // Cached sprites (huge perf win vs shadowBlur per frame)
+  let starSprite, sparkleSprite;
 
-      drawOnce();
+  function makeStarSprite(size){
+    const s = Math.ceil(size);
+    const off = document.createElement('canvas');
+    off.width = off.height = s*2;
+    const g = off.getContext('2d');
+    const R = s;
+    const grad = g.createRadialGradient(R,R,0, R,R,R);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.6,'rgba(255,255,255,0.45)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad;
+    g.beginPath(); g.arc(R,R,R,0,Math.PI*2); g.fill();
+    return off;
+  }
+
+  function makeSparkleSprite(size){
+    const s = Math.ceil(size);
+    const off = document.createElement('canvas');
+    off.width = off.height = s*3;
+    const g = off.getContext('2d');
+    const R = s*1.2;
+    const grad = g.createRadialGradient(1.5*s,1.5*s,0, 1.5*s,1.5*s,R);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.6,'rgba(255,255,255,0.35)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad;
+    g.beginPath(); g.arc(1.5*s,1.5*s,R,0,Math.PI*2); g.fill();
+    return off;
+  }
+
+  function resize(){
+    dpr = Math.max(1, Math.min(2, window.devicePixelRatio||1));
+    w = c.width  = Math.floor(window.innerWidth * dpr);
+    h = c.height = Math.floor(Math.max(window.innerHeight*0.72,520) * dpr);
+    c.style.width  = (w/dpr)+'px';
+    c.style.height = (h/dpr)+'px';
+
+    // sprites based on typical star size
+    starSprite = makeStarSprite(5*dpr);
+    sparkleSprite = makeSparkleSprite(10*dpr);
+
+    const count = Math.floor(window.innerWidth * DENSITY);
+    stars = Array.from({length: count}, () => ({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      s: (0.6 + Math.random()*1.4) * dpr, // scale
+      a: 0.35 + Math.random()*0.5,        // base alpha
+      phase: Math.random()*Math.PI*2,
+      speed: 0.6 + Math.random()*0.9      // twinkle speed multiplier
+    }));
+
+    // pick a subset to animate
+    const idx = [...Array(count).keys()];
+    idx.sort(()=>Math.random()-0.5);
+    animIdx = idx.slice(0, Math.max(1, Math.floor(count*ANIM_RATIO)));
+
+    sparkles = [];
+    draw(0,true); // one immediate draw
+  }
+
+  function maybeSparkle(){
+    if (sparkles.length >= MAX_SPARKLES) return;
+    if (Math.random() < SPARKLE_RATE){
+      const s = stars[(Math.random()*stars.length)|0];
+      sparkles.push({ x:s.x, y:s.y, t:0, life: 40 + (Math.random()*25)|0 });
     }
+  }
 
-    function drawOnce() {
-      ctx.clearRect(0,0,w,h);
-      ctx.globalCompositeOperation = 'lighter';
-      for (let i = 0; i < stars.length; i++) {
-        const s = stars[i];
-        ctx.shadowBlur = s.glow;
-        ctx.shadowColor = `rgba(255,255,255,${s.a})`;
-        ctx.fillStyle   = `rgba(255,255,255,${s.a})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-        ctx.fill();
+  function draw(ts, force){
+    const dt = ts - last;
+    const frameTime = 1000/FPS;
+    if (!force && dt < frameTime){ raf = requestAnimationFrame(draw); return; }
+    last = ts;
+
+    ctx.clearRect(0,0,w,h);
+    ctx.globalCompositeOperation = 'lighter';
+
+    // draw all stars (static alpha), animate only subset scale/alpha a bit
+    for (let i=0;i<stars.length;i++){
+      const st = stars[i];
+      let alpha = st.a;
+      let scale = st.s;
+
+      // cheap twinkle for selected stars
+      // (no trig for most; a few use sin for smoother sparkle)
+      if (i < animIdx.length && animIdx[i] !== undefined){
+        st.phase += 0.06 * st.speed;
+        const tw = (Math.sin(st.phase)*0.5+0.5) * TWINKLE;
+        alpha = Math.min(1, st.a + tw*0.5);
+        scale = st.s * (1 + tw*0.35);
       }
+
+      const size = (starSprite.width * scale) / (10*dpr); // normalize
+      const half = size;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(starSprite, st.x-half, st.y-half, size*2, size*2);
     }
+    ctx.globalAlpha = 1;
 
-    // Debounced resize to avoid spamming redraws
-    let to;
-    window.addEventListener('resize', () => {
-      clearTimeout(to);
-      to = setTimeout(resize, 120);
-    });
+    // fairy sparkles (few, cheap)
+    maybeSparkle();
+    for (let i=sparkles.length-1;i>=0;i--){
+      const sp = sparkles[i];
+      sp.t++;
+      const p = sp.t/sp.life;
+      const a = (1-p) * (0.6 + 0.4*Math.sin(p*Math.PI));
+      const sz = (1 + 0.6*Math.sin(p*Math.PI)) * 1.0;
+      ctx.globalAlpha = a;
+      const s = 24*dpr*sz;
+      ctx.drawImage(sparkleSprite, sp.x - s/2, sp.y - s/2, s, s);
+      if (sp.t >= sp.life) sparkles.splice(i,1);
+    }
+    ctx.globalAlpha = 1;
 
-    resize();
-  })();
+    raf = requestAnimationFrame(draw);
+  }
+
+  resize();
+  raf = requestAnimationFrame(draw);
+  window.addEventListener('resize', ()=>{ cancelAnimationFrame(raf); resize(); raf = requestAnimationFrame(draw); });
+  window.addEventListener('visibilitychange', ()=>{ if (document.hidden) cancelAnimationFrame(raf); else { last=0; raf=requestAnimationFrame(draw);} });
+})();
   </script>
 </body>
 </html>
