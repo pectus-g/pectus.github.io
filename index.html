@@ -391,41 +391,171 @@
     });
 
     // Starfield
-    (function starfield(){
-      const c = document.getElementById('yoru-stars');
-      if (!c) return;
-      const ctx = c.getContext('2d');
-      let w = c.width = window.innerWidth;
-      let h = c.height = Math.max(window.innerHeight * 0.72, 520);
-      const stars = Array.from({ length: Math.floor(w / 8) }, () => ({
+    (function starfield(){const c = document.getElementById('yoru-stars');
+    if (!c) return;
+    const ctx = c.getContext('2d', { alpha: true });
+
+    let w, h, dpr, stars, sparkles, meteors, raf;
+    const DENSITY = 0.12;        // base: stars per vw (increase for more stars)
+    const TWINKLE_STRENGTH = 0.6; // 0–1 how strong the flicker is
+    const SPARKLE_RATE = 0.004;   // chance per frame to spawn a fairy sparkle
+    const METEOR_RATE  = 0.0008;  // chance per frame to spawn a faint meteor
+
+    function resize() {
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = c.width  = Math.floor(window.innerWidth  * dpr);
+      h = c.height = Math.floor(Math.max(window.innerHeight * 0.72, 520) * dpr);
+      c.style.width  = (w / dpr) + 'px';
+      c.style.height = (h / dpr) + 'px';
+
+      const count = Math.floor((window.innerWidth * DENSITY));
+      stars = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        r: Math.random() * 1.2 + 0.2,
-        a: Math.random() * Math.PI * 2,
-        s: Math.random() * 0.5 + 0.2,
+        r: (Math.random() * 1.4 + 0.3) * dpr,
+        phase: Math.random() * Math.PI * 2,
+        speed: (Math.random() * 0.015 + 0.008) * (0.85 + Math.random()*0.3),
+        baseA: 0.2 + Math.random() * 0.4,
+        hue: 220 + Math.random() * 60, // slight blue-indigo variance
+        glow: 6 + Math.random() * 14
       }));
-      let raf;
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-        stars.forEach(p=>{
-          p.a += 0.02 * p.s;
-          const tw = (Math.sin(p.a)+1)/2;
-        ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r + tw*0.6, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(255,255,255,${0.25 + tw*0.6})`;
-          ctx.fill();
-        });
-        raf = requestAnimationFrame(draw);
+
+      sparkles = []; // short-lived bright fairy twinkles
+      meteors  = []; // very faint shooting stars
+    }
+
+    function addSparkle(x, y) {
+      const life = 35 + Math.random() * 25;
+      sparkles.push({
+        x, y,
+        r: 1.5 * dpr + Math.random() * (3 * dpr),
+        t: 0,
+        life,
+        rot: Math.random() * Math.PI,
+      });
+    }
+
+    function addMeteor() {
+      const y = Math.random() * (h * 0.6);
+      meteors.push({
+        x: -40 * dpr,
+        y,
+        vx: (3.5 + Math.random() * 2.5) * dpr,
+        vy: (0.4 + Math.random() * 0.6) * dpr,
+        life: 120 + Math.random() * 80,
+        t: 0
+      });
+    }
+
+    function drawStar(s) {
+      s.phase += s.speed;
+      const tw = (Math.sin(s.phase) * 0.5 + 0.5) * TWINKLE_STRENGTH;
+      const a = Math.min(1, s.baseA + tw);
+
+      ctx.shadowBlur = s.glow;
+      ctx.shadowColor = `hsla(${s.hue}, 90%, 85%, ${a})`;
+      ctx.fillStyle   = `hsla(${s.hue}, 100%, 96%, ${a})`;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r + tw * (1.4 * dpr), 0, Math.PI * 2);
+      ctx.fill();
+
+      // rare: promote to a fairy sparkle
+      if (Math.random() < SPARKLE_RATE) addSparkle(s.x, s.y);
+    }
+
+    function drawSparkle(sp) {
+      sp.t++;
+      const p = sp.t / sp.life;                      // 0..1
+      const pulse = Math.sin(p * Math.PI);           // ease in/out
+      const a = 0.25 + 0.75 * (1 - p) * pulse;
+
+      ctx.save();
+      ctx.translate(sp.x, sp.y);
+      ctx.rotate(sp.rot);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.shadowBlur = 18 * dpr;
+      ctx.shadowColor = `rgba(255,255,255,${a})`;
+
+      // core glow
+      const r = sp.r * (1 + pulse * 1.8);
+      const g = ctx.createRadialGradient(0,0,0, 0,0, r*2.2);
+      g.addColorStop(0,   `rgba(255,255,255,${a})`);
+      g.addColorStop(0.6, `rgba(255,255,255,${a*0.35})`);
+      g.addColorStop(1,   `rgba(255,255,255,0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(0,0, r*2.2, 0, Math.PI*2); ctx.fill();
+
+      // tiny 4-point star glint
+      ctx.globalAlpha = a;
+      const len = r * 1.8, thin = Math.max(0.6, r * 0.18);
+      ctx.fillRect(-len, -thin/2, len*2, thin);
+      ctx.fillRect(-thin/2, -len, thin, len*2);
+
+      ctx.restore();
+    }
+
+    function drawMeteor(m) {
+      m.t++;
+      m.x += m.vx;
+      m.y += m.vy;
+      const p = m.t / m.life;
+      const a = Math.max(0, 0.45 * (1 - p));
+      const tail = 80 * dpr;
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      const grad = ctx.createLinearGradient(m.x - tail, m.y - (m.vy*tail/m.vx), m.x, m.y);
+      grad.addColorStop(0, `rgba(255,255,255,0)`);
+      grad.addColorStop(1, `rgba(255,255,255,${a})`);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.2 * dpr;
+      ctx.beginPath();
+      ctx.moveTo(m.x - tail, m.y - (m.vy*tail/m.vx));
+      ctx.lineTo(m.x, m.y);
+      ctx.stroke();
+
+      ctx.shadowBlur = 12 * dpr;
+      ctx.shadowColor = `rgba(255,255,255,${a})`;
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.beginPath();
+      ctx.arc(m.x, m.y, 1.8 * dpr, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw() {
+      ctx.clearRect(0,0,w,h);
+
+      // blend for nice light accumulation
+      ctx.globalCompositeOperation = 'lighter';
+
+      // stars
+      for (let i=0;i<stars.length;i++) drawStar(stars[i]);
+
+      // sparkles
+      for (let i=sparkles.length-1;i>=0;i--) {
+        drawSparkle(sparkles[i]);
+        if (sparkles[i].t >= sparkles[i].life) sparkles.splice(i,1);
       }
-      draw();
-      window.addEventListener('resize', () => {
-        w = c.width = window.innerWidth;
-        h = c.height = Math.max(window.innerHeight * 0.72, 520);
-      });
-      window.addEventListener('visibilitychange', ()=>{
-        if (document.hidden) cancelAnimationFrame(raf); else draw();
-      });
-    })();
+
+      // meteors (very rare and faint)
+      if (Math.random() < METEOR_RATE) addMeteor();
+      for (let i=meteors.length-1;i>=0;i--) {
+        drawMeteor(meteors[i]);
+        if (meteors[i].t >= meteors[i].life || meteors[i].x > w+50*dpr) meteors.splice(i,1);
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
+    window.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(raf); else draw();
+    });
+  })();
   </script>
 </body>
 </html>
