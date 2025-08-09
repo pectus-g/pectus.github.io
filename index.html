@@ -66,6 +66,7 @@
 <!-- HERO (Parallax) -->
 <section id="home" class="relative min-h-[110vh] grid place-items-center overflow-hidden">
 
+
   <!-- stars layer -->
   <canvas
     id="yoru-stars"
@@ -79,7 +80,7 @@
     class="absolute -top-24 right-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-amber-200/30 via-rose-300/20 to-indigo-400/20 blur-3xl [will-change:transform]">
   </div>
   <div
-    data-parallax="0.8"
+    data-parallax="0.85"
     class="absolute -bottom-24 left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-sky-300/20 via-emerald-300/20 to-fuchsia-300/20 blur-3xl [will-change:transform]">
   </div>
 
@@ -101,31 +102,38 @@
   </div>
 </section>
 <script>
-  // Simple parallax for any element with data-parallax="<speed>"
-  (function parallax(){
-    const els = Array.from(document.querySelectorAll('[data-parallax]'));
+  // Viewport-based parallax: moves elements based on their position in view
+  (function () {
+    const els = Array.from(document.querySelectorAll("[data-parallax]"));
     if (!els.length) return;
 
     let ticking = false;
-    function update(){
-      const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+    function update() {
+      const vh = window.innerHeight || 1;
       els.forEach(el => {
-        const speed = parseFloat(el.dataset.parallax || '0');
-        el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+        const speed = parseFloat(el.dataset.parallax || "0");
+        const rect = el.getBoundingClientRect();
+        // distance from viewport center (makes motion obvious at the top)
+        const fromCenter = rect.top + rect.height / 2 - vh / 2;
+        el.style.transform = `translate3d(0, ${fromCenter * speed}px, 0)`;
       });
       ticking = false;
     }
 
-    function onScroll(){
-      if (!ticking){
-        window.requestAnimationFrame(update);
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(update);
         ticking = true;
       }
     }
+
     update();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", requestTick);
   })();
 </script>
+
 
 
   <!-- HOOK -->
