@@ -397,10 +397,10 @@
     const ctx = c.getContext('2d', { alpha: true });
 
     let w, h, dpr, stars, sparkles, meteors, raf;
-    const DENSITY = 0.05;        // base: stars per vw (increase for more stars)
-    const TWINKLE_STRENGTH = 0.2; // 0–1 how strong the flicker is
-    const SPARKLE_RATE = 0.001;   // chance per frame to spawn a fairy sparkle
-    const METEOR_RATE  = 0.0001;  // chance per frame to spawn a faint meteor
+    const DENSITY = 0.02;        // base: stars per vw (increase for more stars)
+    const TWINKLE_STRENGTH = 0.1; // 0–1 how strong the flicker is
+    const SPARKLE_RATE = 0.0005;   // chance per frame to spawn a fairy sparkle
+    const METEOR_RATE  = 0.00005;  // chance per frame to spawn a faint meteor
 
     function resize() {
       dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
