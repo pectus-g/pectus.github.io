@@ -63,36 +63,36 @@
   </header>
 
   <!-- HERO -->
-<!-- HERO (fairy stars + drifting glow blobs) -->
-<section id="home" class="relative min-h-[80vh] grid place-items-center overflow-hidden">
-  <!-- stars behind everything -->
-  <canvas id="yoru-stars" class="absolute inset-0 w-full h-full [will-change:contents]"></canvas>
+<!-- HERO (Parallax) -->
+<section id="home" class="relative min-h-[110vh] grid place-items-center overflow-hidden">
 
-  <!-- left bluish/teal glow — visible at start, drifts up, fades out -->
+
+  <!-- stars layer -->
+  <canvas
+    id="yoru-stars"
+    data-parallax="0.25"
+    class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen [will-change:transform]">
+  </canvas>
+
+  <!-- glow blobs (behind) -->
   <div
-    data-parallax="-0.22"
-    data-fade-start="140"
-    data-fade-end="520"
-    class="absolute -bottom-10 left-[-8%] w-[40vw] h-[40vw]
-           rounded-full bg-gradient-to-br from-teal-300/22 via-sky-300/16 to-indigo-400/14
-           blur-3xl mix-blend-screen pointer-events-none [will-change:transform,opacity]">
+    data-parallax="0.55"
+    class="absolute -top-24 right-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-amber-200/30 via-rose-300/20 to-indigo-400/20 blur-3xl [will-change:transform]">
   </div>
-
-  <!-- right pink/purple glow — visible at start, drifts up, fades out -->
   <div
-    data-parallax="-0.26"
-    data-fade-start="140"
-    data-fade-end="520"
-    class="absolute -top-6 right-[-8%] w-[42vw] h-[42vw]
-           rounded-full bg-gradient-to-tl from-rose-300/22 via-fuchsia-300/16 to-violet-400/14
-           blur-3xl mix-blend-screen pointer-events-none [will-change:transform,opacity]">
+    data-parallax="0.85"
+    class="absolute -bottom-24 left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-sky-300/20 via-emerald-300/20 to-fuchsia-300/20 blur-3xl [will-change:transform]">
   </div>
 
   <!-- foreground content -->
-  <div data-parallax="0.08" class="relative z-10 mx-auto max-w-5xl px-4 text-center [will-change:transform]">
-    <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.1]">Yoru: <span class="opacity-90">Eclipse of Two Tails</span></h1>
+  <div
+    data-parallax="0.12"
+    class="relative z-10 mx-auto max-w-5xl px-4 text-center [will-change:transform]">
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.1]">
+      Yoru: <span class="opacity-90">Eclipse of Two Tails</span>
+    </h1>
     <p class="mt-4 text-lg md:text-xl opacity-90 max-w-3xl mx-auto">
-      A narrative action‑adventure where every choice bends the world toward <span class="font-semibold">Light</span> or <span class="font-semibold">Dark</span>. Guide Yoru, a two‑tailed nekomata, through Japanese folklore to uncover her unfinished purpose.
+      A narrative action-adventure where every choice bends the world toward <span class="font-semibold">Light</span> or <span class="font-semibold">Dark</span>. Guide Yoru, a two-tailed nekomata, through Japanese folklore to uncover her unfinished purpose.
     </p>
     <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
       <a href="#" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
@@ -102,108 +102,37 @@
   </div>
 </section>
 <script>
-  // -------- Parallax + optional fade (viewport-based) --------
+  // Viewport-based parallax: moves elements based on their position in view
   (function () {
     const els = Array.from(document.querySelectorAll("[data-parallax]"));
     if (!els.length) return;
-    const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
     let ticking = false;
 
     function update() {
       const vh = window.innerHeight || 1;
-      const y  = window.pageYOffset || document.documentElement.scrollTop || 0;
-
       els.forEach(el => {
         const speed = parseFloat(el.dataset.parallax || "0");
-        const rect  = el.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
+        // distance from viewport center (makes motion obvious at the top)
         const fromCenter = rect.top + rect.height / 2 - vh / 2;
         el.style.transform = `translate3d(0, ${fromCenter * speed}px, 0)`;
-
-        const fs = parseFloat(el.dataset.fadeStart || "NaN");
-        const fe = parseFloat(el.dataset.fadeEnd   || "NaN");
-        if (!Number.isNaN(fs) && !Number.isNaN(fe) && fe > fs) {
-          const t = clamp((y - fs) / (fe - fs), 0, 1);
-          el.style.opacity = (1 - t).toFixed(3);
-        }
       });
       ticking = false;
     }
-    function tick(){ if (!ticking) { requestAnimationFrame(update); ticking = true; } }
-    update(); window.addEventListener("scroll", tick, { passive: true }); window.addEventListener("resize", tick);
-  })();
 
-  // -------- Fairy‑twinkle starfield (soft glow + random pastel tints) --------
-  (function () {
-    const c = document.getElementById("yoru-stars");
-    if (!c) return;
-    const ctx = c.getContext("2d");
-
-    function resize(){
-      c.width  = window.innerWidth;
-      c.height = Math.max(window.innerHeight * 0.80, 520);
-    }
-    resize(); window.addEventListener("resize", resize);
-
-    const density = Math.floor((c.width * c.height) / 11000); // tweak for more/less stars
-    const pickColor = () => {
-      const r = Math.random();
-      // mostly neutral white, some cool pastels sprinkled in
-      if (r < 0.10) return [190,220,255];   // icy blue
-      if (r < 0.18) return [210,190,255];   // lilac
-      if (r < 0.24) return [190,255,235];   // mint/teal
-      return [255,255,255];                 // white
-    };
-
-    const stars = Array.from({ length: density }, () => {
-      const [r,g,b] = pickColor();
-      return {
-        x: Math.random() * c.width,
-        y: Math.random() * c.height,
-        r: Math.random() * 1.2 + 0.6,
-        base: 0.5 + Math.random() * 0.4,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.0015 + Math.random() * 0.0025, // twinkle speed
-        glow: 1.2 + Math.random() * 1.6,
-        color: `${r},${g},${b}`,
-        drift: 0.04 + Math.random() * 0.12      // subtle downward drift
-      };
-    });
-
-    let raf;
-    function draw(){
-      ctx.clearRect(0,0,c.width,c.height);
-      ctx.globalCompositeOperation = "lighter"; // additive for glow
-
-      const t = performance.now();
-      for (const s of stars) {
-        s.phase += s.speed * 60;
-        s.y += s.drift; if (s.y > c.height + 8) s.y = -8;
-
-        const tw = (Math.sin(s.phase) + 1) / 2;             // 0..1
-        const alpha = s.base * (0.7 + tw * 0.6);            // breathe
-        const halo = s.r * (s.glow * (1.2 + tw * 0.8));
-
-        // halo
-        const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, halo*2.6);
-        g.addColorStop(0, `rgba(${s.color}, ${alpha * 0.6})`);
-        g.addColorStop(1, `rgba(${s.color}, 0)`);
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(s.x, s.y, halo*2.6, 0, Math.PI*2); ctx.fill();
-
-        // core
-        ctx.beginPath(); ctx.arc(s.x, s.y, s.r + tw*0.5, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(${s.color}, ${alpha})`; ctx.fill();
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
       }
-      ctx.globalCompositeOperation = "source-over";
-      raf = requestAnimationFrame(draw);
     }
-    draw();
 
-    document.addEventListener("visibilitychange", ()=>{ if (document.hidden) cancelAnimationFrame(raf); else draw(); });
+    update();
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", requestTick);
   })();
 </script>
-
-
 
 
 
