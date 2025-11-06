@@ -1,562 +1,1337 @@
-<!doctype html>
-<html lang="en" class="dark">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yoru: Eclipse of Two Tails</title>
-  <!-- Tailwind via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // Tailwind config + dark mode class strategy
-    tailwind.config = { darkMode: 'class' };
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yoru: Eclipse of Two Tails - Every Soul Remembers Your Choice</title>
+  
   <style>
-    html, body { scroll-behavior: smooth; }
-    /* prevent iOS tap highlight on buttons/links */
-    * { -webkit-tap-highlight-color: transparent; }
-  </style>
-</head>
-<body class="font-sans antialiased text-slate-900 dark:text-slate-100 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-  <!-- NAV -->
-  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-950/60 border-b border-slate-200/70 dark:border-slate-800/60">
-    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
-      <a href="#home" class="flex items-center gap-3 group">
-        <div class="relative w-10 h-10">
-          <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-indigo-500 to-rose-500 blur-sm opacity-60"></div>
-          <div class="absolute inset-0 rounded-2xl bg-slate-900"></div>
-          <div class="absolute inset-0 grid place-items-center text-2xl">🐈‍⬛</div>
-        </div>
-        <div>
-          <div class="text-lg font-semibold tracking-wide group-hover:opacity-90">Yoru: Eclipse of Two Tails</div>
-          <div class="text-xs opacity-70">A narrative indie rooted in Japanese folklore</div>
-        </div>
-      </a>
-
-      <nav class="hidden md:flex items-center gap-6">
-        <a href="#hook" class="text-sm tracking-wide opacity-80 hover:opacity-100">Hook</a>
-        <a href="#gameplay" class="text-sm tracking-wide opacity-80 hover:opacity-100">Gameplay</a>
-        <a href="#world" class="text-sm tracking-wide opacity-80 hover:opacity-100">World</a>
-        <a href="#media" class="text-sm tracking-wide opacity-80 hover:opacity-100">Media</a>
-        <a href="#roadmap" class="text-sm tracking-wide opacity-80 hover:opacity-100">Roadmap</a>
-        <a href="#team" class="text-sm tracking-wide opacity-80 hover:opacity-100">Team</a>
-        <a href="#press" class="text-sm tracking-wide opacity-80 hover:opacity-100">Press</a>
-        <a href="#" id="steamTop" class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold shadow-sm border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
-        <button id="themeToggle" class="ml-2 rounded-xl px-3 py-2 border border-slate-300/60 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-800">☀️</button>
-      </nav>
-
-      <button id="menuBtn" class="md:hidden p-2 rounded-lg border border-slate-300/60 dark:border-slate-700/60">☰</button>
-    </div>
-
-    <div id="mobileMenu" class="md:hidden transition-[max-height] duration-300 overflow-hidden max-h-0">
-      <div class="px-4 pb-3 flex flex-col gap-3">
-        <a href="#hook" class="py-1 opacity-80">Hook</a>
-        <a href="#gameplay" class="py-1 opacity-80">Gameplay</a>
-        <a href="#world" class="py-1 opacity-80">World</a>
-        <a href="#media" class="py-1 opacity-80">Media</a>
-        <a href="#roadmap" class="py-1 opacity-80">Roadmap</a>
-        <a href="#team" class="py-1 opacity-80">Team</a>
-        <a href="#press" class="py-1 opacity-80">Press</a>
-        <a href="#" id="steamMobile" class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold shadow-sm border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
-        <button id="themeToggleM" class="rounded-xl px-3 py-2 border border-slate-300/60 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-800">☀️ Light</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-<!-- HERO (Parallax) -->
-<section id="home" class="relative min-h-[110vh] grid place-items-center overflow-hidden">
-
-
-  <!-- stars layer -->
-  <canvas
-    id="yoru-stars"
-    data-parallax="0.25"
-    class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen [will-change:transform]">
-  </canvas>
-
-  <!-- glow blobs (behind) -->
-<!-- Left blob -->
-<div
-  data-parallax="0.7"
-  class="absolute top-0 left-0 w-[60vw] h-[60vw] rounded-full
-         bg-gradient-to-br from-amber-200/30 via-rose-300/20 to-indigo-400/20
-         blur-3xl [will-change:transform]">
-</div>
-
-<!-- Right blob -->
-<div
-  data-parallax="0.7"
-  class="absolute top-0 right-0 w-[60vw] h-[60vw] rounded-full
-         bg-gradient-to-tl from-sky-300/20 via-emerald-300/20 to-fuchsia-300/20
-         blur-3xl [will-change:transform]">
-</div>
-
-
-  <!-- foreground content -->
-  <div
-    data-parallax="0.12"
-    class="relative z-10 mx-auto max-w-5xl px-4 text-center [will-change:transform]">
-    <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.1]">
-      Yoru: <span class="opacity-90">Eclipse of Two Tails</span>
-    </h1>
-    <p class="mt-4 text-lg md:text-xl opacity-90 max-w-3xl mx-auto">
-      A narrative action-adventure where every choice bends the world toward <span class="font-semibold">Light</span> or <span class="font-semibold">Dark</span>. Guide Yoru, a two-tailed nekomata, through Japanese folklore to uncover her unfinished purpose.
-    </p>
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-      <a href="#" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Wishlist on Steam</a>
-      <a href="#media" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-slate-300/60 hover:bg-slate-100 dark:border-slate-700/60 dark:hover:bg-slate-800">Watch Trailer</a>
-      <a href="#press" class="rounded-2xl px-6 py-3 text-sm font-semibold shadow border border-indigo-400/40 bg-indigo-500/10 hover:bg-indigo-500/20">Press Kit</a>
-    </div>
-  </div>
-</section>
-<script>
-  // Viewport-based parallax: moves elements based on their position in view
-  (function () {
-    const els = Array.from(document.querySelectorAll("[data-parallax]"));
-    if (!els.length) return;
-
-    let ticking = false;
-
-    function update() {
-      const vh = window.innerHeight || 1;
-      els.forEach(el => {
-        const speed = parseFloat(el.dataset.parallax || "0");
-        const rect = el.getBoundingClientRect();
-        // distance from viewport center (makes motion obvious at the top)
-        const fromCenter = rect.top + rect.height / 2 - vh / 2;
-        el.style.transform = `translate3d(0, ${fromCenter * speed}px, 0)`;
-      });
-      ticking = false;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-
-    function requestTick() {
-      if (!ticking) {
-        requestAnimationFrame(update);
-        ticking = true;
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #0a0a0f;
+      color: #ffffff;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem 2rem;
+    }
+    
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+      overflow: hidden;
+    }
+    
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .logo-text {
+      font-size: 1.3rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      list-style: none;
+    }
+    
+    .nav-menu a {
+      color: #ffffff;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+    
+    .nav-menu a:hover {
+      color: #a855f7;
+    }
+    
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #a855f7, #3b82f6);
+      transition: width 0.3s;
+    }
+    
+    .nav-menu a:hover::after {
+      width: 100%;
+    }
+    
+    .cta-button {
+      background: linear-gradient(135deg, #10b981, #059669);
+      padding: 0.75rem 1.75rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+    
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+    
+    .gradient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.4;
+      animation: float 25s infinite ease-in-out;
+    }
+    
+    .orb-1 {
+      width: 700px;
+      height: 700px;
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      top: -200px;
+      left: -200px;
+    }
+    
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      bottom: -200px;
+      right: -200px;
+      animation-delay: 8s;
+    }
+    
+    .orb-3 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 15s;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(40px, -40px) scale(1.1);
+      }
+      66% {
+        transform: translate(-30px, 30px) scale(0.95);
       }
     }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem;
+      max-width: 1100px;
+    }
+    
+    .hero h1 {
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #a855f7, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 8s ease infinite;
+      background-size: 200% 200%;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .hero-subtitle {
+      font-size: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+    
+    .hero-description {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 3rem;
+      line-height: 1.8;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      padding: 1rem 2.5rem;
+      border-radius: 0.75rem;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+    }
+    
+    /* Moral Choice Section */
+    .moral-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.03), transparent);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #a855f7;
+      margin-bottom: 1rem;
+    }
+    
+    .section-title {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+    }
+    
+    .section-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Choice Cards */
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    
+    .choice-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .choice-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, transparent, rgba(96, 165, 250, 0.05));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    
+    .choice-card.dark::before {
+      background: linear-gradient(135deg, transparent, rgba(244, 114, 182, 0.05));
+    }
+    
+    .choice-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 60px rgba(168, 85, 247, 0.15);
+    }
+    
+    .choice-card:hover::before {
+      opacity: 1;
+    }
+    
+    .choice-title {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: bold;
+    }
+    
+    .light-choice .choice-title {
+      color: #60a5fa;
+    }
+    
+    .dark-choice .choice-title {
+      color: #f472b6;
+    }
+    
+    .choice-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    
+    .choice-features li {
+      padding: 1rem 0;
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .choice-features .icon {
+      font-size: 1.5rem;
+      margin-top: 0.2rem;
+    }
+    
+    .choice-screenshot {
+      width: 100%;
+      height: 280px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .choice-screenshot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Ring System Display */
+    .ring-system {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    
+    .ring-display {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      margin-top: 2rem;
+    }
+    
+    .tail-rings {
+      text-align: center;
+    }
+    
+    .tail-label {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    
+    .rings {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .ring {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .ring-filled-light {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      box-shadow: 0 0 25px rgba(96, 165, 250, 0.6);
+    }
+    
+    .ring-filled-dark {
+      background: linear-gradient(135deg, #f472b6, #ec4899);
+      box-shadow: 0 0 25px rgba(244, 114, 182, 0.6);
+    }
+    
+    .ring-empty {
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .ring:hover {
+      transform: scale(1.15);
+    }
+    
+    /* Mechanics Section */
+    .mechanics-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.03), transparent);
+    }
+    
+    .mechanics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .mechanic-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    
+    .mechanic-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(168, 85, 247, 0.3);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.1);
+    }
+    
+    .mechanic-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #a855f7;
+      font-weight: bold;
+    }
+    
+    .mechanic-description {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+    
+    /* World Section */
+    .world-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, transparent, rgba(236, 72, 153, 0.03), transparent);
+    }
+    
+    .world-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .world-state {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    
+    .world-state:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 50px rgba(168, 85, 247, 0.2);
+    }
+    
+    .world-image {
+      width: 100%;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .world-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .world-info {
+      padding: 1.5rem;
+    }
+    
+    .world-name {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .world-description {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    /* Gallery Section */
+    .gallery-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, transparent, rgba(96, 165, 250, 0.03), transparent);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .gallery-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 25px 50px rgba(168, 85, 247, 0.25);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 1.5rem;
+      transform: translateY(100%);
+      transition: transform 0.3s;
+    }
+    
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+    
+    /* Footer */
+    footer {
+      padding: 4rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    
+    .footer-text {
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.8;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .social-link {
+      color: rgba(255, 255, 255, 0.5);
+      transition: all 0.3s;
+    }
+    
+    .social-link:hover {
+      color: #a855f7;
+      transform: translateY(-3px);
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 3.5rem;
+      }
+      
+      .choice-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .ring-display {
+        flex-direction: column;
+        gap: 2rem;
+      }
+      
+      .mechanics-grid,
+      .world-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas for particles -->
+  <canvas id="particleCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
 
-    update();
-    window.addEventListener("scroll", requestTick, { passive: true });
-    window.addEventListener("resize", requestTick);
-  })();
-</script>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <!-- Replace with your actual logo -->
+          <!-- <img src="assets/images/logo.png" alt="Yoru Logo"> -->
+          🐈‍⬛
+        </div>
+        <span class="logo-text">Yoru</span>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="#choice">Moral Choice</a></li>
+        <li><a href="#mechanics">Mechanics</a></li>
+        <li><a href="#world">World</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#demo">Demo</a></li>
+      </ul>
+      
+      <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="cta-button">
+        Wishlist on Steam
+      </a>
+    </div>
+  </nav>
 
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+    
+    <div class="hero-content">
+      <h1>Yoru</h1>
+      <p class="hero-subtitle">Eclipse of Two Tails</p>
+      <p class="hero-description">
+        You are a Nekomata—a two-tailed cat spirit caught between mercy and judgment. 
+        Every soul you encounter presents a choice: <strong>Purify them with compassion</strong> or <strong>Burn them with righteous flame</strong>. 
+        Five rings on each tail track your moral path through a world that transforms with every decision.
+      </p>
+      
+      <div class="hero-buttons">
+        <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="btn-primary">
+          ⚡ Wishlist on Steam
+        </a>
+        <a href="#choice" class="btn-primary" style="background: linear-gradient(135deg, #a855f7, #3b82f6);">
+          🔮 Discover Your Path
+        </a>
+      </div>
+    </div>
+  </section>
 
-
-  <!-- HOOK -->
-  <section id="hook" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">The Hook</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Forgive or Burn Souls — the World Remembers</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
-        <p>
-          Each encounter is a moral choice. <b>Forgive</b> spirits through negotiation and empathy to brighten the land, or <b>Punish</b> with combat and flame to feed the moonlit gloom. As Yoru advances, rings ignite on each tail—<b>five rings per tail</b>—mapping your path toward Radiance or Umbra.
+  <!-- Moral Choice Section -->
+  <section id="choice" class="moral-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Core Gameplay</p>
+        <h2 class="section-title">Every Soul. Every Choice. Every Consequence.</h2>
+        <p class="section-subtitle">
+          In Yoru's world, there are no predetermined "good" or "evil" paths. 
+          Each encounter is a genuine moral dilemma where both mercy and judgment have their place.
         </p>
-        <ul class="space-y-3 text-sm md:text-base">
-          <li>• <b>Dynamic bi-moral alignment</b>: 0–5 rings on each tail shape mood, music, NPCs, and quests.</li>
-          <li>• <b>Living world reaction</b>: more light brings peace and color; more dark summons eerie hush, long shadows, and a looming moon.</li>
-          <li>• <b>Branching endings</b>: multiple finales based on your twin-tail progression and key vows you keep—or break.</li>
-        </ul>
       </div>
-    </div>
-  </section>
-
-  <!-- GAMEPLAY -->
-  <section id="gameplay" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Systems</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Choose Your Path. Build Your Yoru.</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-10">
-        <div class="space-y-6">
-          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-            <div class="text-lg font-semibold">Negotiation & Mercy</div>
-            <p class="mt-1 opacity-90">Parley with restless souls using dialogue, offerings, and lore-tailored rituals to resolve grudges without violence.</p>
-          </div>
-          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-            <div class="text-lg font-semibold">Stylized Combat</div>
-            <p class="mt-1 opacity-90">Claw, dash, and flame-channel through encounters when you choose retribution. Build combos aligned to Light or Dark rings.</p>
-          </div>
-          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-            <div class="text-lg font-semibold">Dual Ability Trees</div>
-            <p class="mt-1 opacity-90">Two synchronized trees—one per tail. Mix ring levels to craft hybrid builds and unique traversal/combat synergies.</p>
-          </div>
-          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-            <div class="text-lg font-semibold">World-State Quests</div>
-            <p class="mt-1 opacity-90">Shrines, bosses, and side stories adapt to your moral tilt. The eclipse finale unlocks when all rings are lit.</p>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-3xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 to-rose-500/10 dark:from-indigo-500/20 dark:to-rose-500/20 shadow-inner">
-          <h3 class="text-xl font-bold">Tail Rings = World Shift</h3>
-          <p class="mt-2 opacity-90">
-            Raise <b>Light Rings</b> to invite warmth, birdsong, and open paths. Raise <b>Dark Rings</b> to bring moonlight, murmurs, and spectral shortcuts. Hybrid paths unlock secret interactions.
-          </p>
-          <div class="mt-6 grid grid-cols-5 gap-2 text-center text-xs">
-            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R1</div>
-            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R2</div>
-            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R3</div>
-            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R4</div>
-            <div class="aspect-square rounded-xl bg-yellow-300/20 border border-yellow-400/40 grid place-items-center">R5</div>
-            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R1</div>
-            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R2</div>
-            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R3</div>
-            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R4</div>
-            <div class="aspect-square rounded-xl bg-fuchsia-300/20 border border-fuchsia-400/40 grid place-items-center">R5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WORLD -->
-  <section id="world" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Atmosphere</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">A Folklore Tapestry of Light and Gloom</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-10 items-start">
-        <p>Wander cedar forests, lantern-lit villages, and shrine-studded ridges inspired by Japanese folklore. Meet guides and tricksters—messenger hares with healing peaches, wary shrine keepers, and a tiger etched like an old woodblock dream. As the eclipse nears, time wavers and Yoru's human form flickers through memory.</p>
-        <div class="grid grid-cols-3 gap-3">
-          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 1</div>
-          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 2</div>
-          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 3</div>
-          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 4</div>
-          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 5</div>
-          <div class="aspect-[4/3] rounded-2xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 grid place-items-center text-xs opacity-70">Screenshot 6</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MEDIA -->
-  <section id="media" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Trailer & Media</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Watch the Trailer. Explore the Sound.</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
-        <div class="aspect-video w-full rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800/60 shadow">
-          <!-- Replace the src with your actual trailer -->
-          <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=yoru-trailer" title="Yoru Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="space-y-4">
-          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-            <div class="font-semibold">Press Kit</div>
-            <p class="opacity-90 text-sm mt-1">Download logos, key art, screenshots, and a fact sheet.</p>
-            <a href="#" class="inline-flex mt-3 rounded-xl px-4 py-2 text-sm font-semibold border border-indigo-400/40 bg-indigo-500/10 hover:bg-indigo-500/20">Download</a>
-          </div>
-          <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-            <div class="font-semibold">Wishlist & Follow</div>
-            <p class="opacity-90 text-sm mt-1">Be the first to know about the demo and playtests.</p>
-            <div class="mt-3 flex flex-wrap gap-3">
-              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-green-600/40 bg-green-500/10 hover:bg-green-500/20">Steam</a>
-              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-sky-400/40 bg-sky-500/10 hover:bg-sky-500/20">Twitter/X</a>
-              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-pink-400/40 bg-pink-500/10 hover:bg-pink-500/20">Instagram</a>
-              <a href="#" class="rounded-xl px-4 py-2 text-sm font-semibold border border-red-400/40 bg-red-500/10 hover:bg-red-500/20">YouTube</a>
+      
+      <div class="choice-grid">
+        <!-- Light Path -->
+        <div class="choice-card light-choice">
+          <h3 class="choice-title">
+            <span style="font-size: 2.5rem;">🕊️</span>
+            Path of Purification
+          </h3>
+          
+          <div class="choice-screenshot">
+            <!-- Replace with actual light world screenshot -->
+            <img src="assets/images/light-world.jpg" alt="Light World">
+            <div style="text-align: center; padding: 1rem;">
+              <p style="font-size: 2rem;">☀️</p>
+              <p style="color: rgba(255,255,255,0.5);">Light World Screenshot</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ROADMAP -->
-  <section id="roadmap" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Milestones</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Roadmap to Eclipse</h2>
-      <ol class="mt-6 relative border-s border-slate-300/60 dark:border-slate-700/60 ml-2">
-        <li class="pl-6 py-5 group">
-          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
-          <div class="text-sm uppercase tracking-wider opacity-70">Q3 2025</div>
-          <div class="text-lg font-semibold">Vertical Slice & Trailer</div>
-          <div class="opacity-90">15–20 minute demo with core loop (for festivals & incubators).</div>
-        </li>
-        <li class="pl-6 py-5 group">
-          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
-          <div class="text-sm uppercase tracking-wider opacity-70">Q4 2025</div>
-          <div class="text-lg font-semibold">Playtest & Iteration</div>
-          <div class="opacity-90">Combat tuning, negotiation depth, performance polish.</div>
-        </li>
-        <li class="pl-6 py-5 group">
-          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
-          <div class="text-sm uppercase tracking-wider opacity-70">Q1 2026</div>
-          <div class="text-lg font-semibold">Wishlist Campaign</div>
-          <div class="opacity-90">Steam page live, influencer outreach, press previews.</div>
-        </li>
-        <li class="pl-6 py-5 group">
-          <span class="absolute left-[-8px] mt-2 w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-rose-500 shadow"></span>
-          <div class="text-sm uppercase tracking-wider opacity-70">2026</div>
-          <div class="text-lg font-semibold">Release Window</div>
-          <div class="opacity-90">Final content pass and launch.</div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- TEAM -->
-  <section id="team" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Studio</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Made by Pectus — Solo Dev Project</h2>
-      <div class="mt-6 grid md:grid-cols-3 gap-8">
-        <div class="md:col-span-2">
-          <p>Pectus is a solo indie studio led by Asena Hazal in Canada. Yoru blends atmospheric exploration with moral storytelling. Production will partner with contractors for character design, animation, soundtrack, and QA.</p>
-          <ul class="mt-4 space-y-2 text-sm md:text-base opacity-90">
-            <li>• Engine: Unity 6 / URP (demo compatible with 2022 LTS).</li>
-            <li>• Inspirations: Ori, Journey, Little Nightmares, Undertale, Edith Finch.</li>
-            <li>• Platforms: PC first; consoles TBD.</li>
+          
+          <ul class="choice-features">
+            <li>
+              <span class="icon">✨</span>
+              <div>
+                <strong>Purify Tormented Souls</strong><br>
+                Use dialogue trees to understand their pain. Offer sake, peaches, or prayers. 
+                Each purified soul teaches you their story and grants Light Karma.
+              </div>
+            </li>
+            <li>
+              <span class="icon">🌸</span>
+              <div>
+                <strong>World Blooms with Your Mercy</strong><br>
+                Cherry blossoms bloom, shrines restore themselves, bells ring in harmony. 
+                NPCs approach you willingly, sharing secrets and assistance.
+              </div>
+            </li>
+            <li>
+              <span class="icon">💫</span>
+              <div>
+                <strong>Gain Purification Powers</strong><br>
+                Each Light Ring unlocks abilities: Healing Burst, Spirit Guidance, Sacred Barriers. 
+                Your Shine regenerates faster near temples and holy grounds.
+              </div>
+            </li>
           </ul>
-        </div>
-        <div class="p-5 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-          <div class="font-semibold">Looking to Collaborate</div>
-          <p class="mt-1 text-sm opacity-90">Seeking a 3D character artist/animator (fur, wind, spine), concept artist, and composer. Send portfolios below.</p>
-          <a href="#press" class="inline-flex mt-3 rounded-xl px-4 py-2 text-sm font-semibold border border-rose-400/40 bg-rose-500/10 hover:bg-rose-500/20">Contact</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRESS -->
-  <section id="press" class="scroll-mt-24">
-    <div class="mx-auto max-w-7xl px-4 py-20">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Press & Contact</p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight">Press Inquiries, Creator Keys, & Business</h2>
-      <div class="mt-6 grid md:grid-cols-2 gap-8">
-        <div class="p-6 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-          <div class="font-semibold">Contact</div>
-          <p class="mt-2 opacity-90 text-sm">For interviews, previews, and review keys, email us:</p>
-          <a href="mailto:hello@pectus.studio?subject=Yoru%20Press%20Inquiry" class="mt-3 inline-flex rounded-xl px-4 py-2 text-sm font-semibold border border-slate-300/60 hover:bg-slate-100 dark:border-slate-700/60 dark:hover:bg-slate-800">hello@pectus.studio</a>
-          <div class="mt-4 text-sm opacity-80">Ottawa, Canada • Solo indie • Founded 2025</div>
-        </div>
-
-        <form onsubmit="event.preventDefault(); alert('Thanks! Connect to Buttondown/Mailchimp later.');" class="p-6 rounded-2xl border border-slate-200/70 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 shadow-sm">
-          <div class="font-semibold">Join the Newsletter</div>
-          <p class="mt-2 opacity-90 text-sm">Get devlogs, playtest invites, and launch updates.</p>
-          <div class="mt-4 flex gap-2">
-            <input type="email" required placeholder="you@email.com" class="flex-1 rounded-xl px-4 py-2 border border-slate-300/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-900/60">
-            <button class="rounded-xl px-4 py-2 text-sm font-semibold border border-emerald-400/40 bg-emerald-500/10 hover:bg-emerald-500/20">Subscribe</button>
+          
+          <div style="padding: 1.5rem; background: rgba(96, 165, 250, 0.1); border-radius: 0.75rem; margin-top: 1rem;">
+            <p style="font-size: 1.1rem; color: #60a5fa;">
+              <strong>Light Karma Effects:</strong> Easier persuasion in boss encounters • Fog lifts revealing hidden paths • 
+              Peaceful spirits offer aid • Your right tail glows with golden rings
+            </p>
           </div>
-          <p class="mt-2 text-xs opacity-70">No spam. Unsubscribe anytime.</p>
-        </form>
+        </div>
+        
+        <!-- Dark Path -->
+        <div class="choice-card dark-choice dark">
+          <h3 class="choice-title">
+            <span style="font-size: 2.5rem;">🔥</span>
+            Path of Punishment
+          </h3>
+          
+          <div class="choice-screenshot">
+            <!-- Replace with actual dark world screenshot -->
+            <img src="assets/images/dark-world.jpg" alt="Dark World">
+            <div style="text-align: center; padding: 1rem;">
+              <p style="font-size: 2rem;">🌙</p>
+              <p style="color: rgba(255,255,255,0.5);">Dark World Screenshot</p>
+            </div>
+          </div>
+          
+          <ul class="choice-features">
+            <li>
+              <span class="icon">⚡</span>
+              <div>
+                <strong>Burn Corrupted Souls</strong><br>
+                Judge the unworthy through combat. Consume their corrupted energy to fuel your power. 
+                Each burned soul strengthens your resolve and grants Dark Karma.
+              </div>
+            </li>
+            <li>
+              <span class="icon">🌑</span>
+              <div>
+                <strong>World Reflects Your Judgment</strong><br>
+                Eternal moonlight falls, fog thickens, shadows lengthen. 
+                NPCs fear you but reveal different truths born from terror.
+              </div>
+            </li>
+            <li>
+              <span class="icon">🔥</span>
+              <div>
+                <strong>Gain Judgment Powers</strong><br>
+                Each Dark Ring unlocks abilities: Shadow Fire, Soul Burn, Vengeful Dash. 
+                Your Shine regenerates through combat and near corrupted zones.
+              </div>
+            </li>
+          </ul>
+          
+          <div style="padding: 1.5rem; background: rgba(244, 114, 182, 0.1); border-radius: 0.75rem; margin-top: 1rem;">
+            <p style="font-size: 1.1rem; color: #f472b6;">
+              <strong>Dark Karma Effects:</strong> Harder persuasion but stronger combat • Hidden yokai paths open • 
+              Corrupted spirits grant forbidden knowledge • Your left tail burns with crimson rings
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Ring System Display -->
+      <div class="ring-system">
+        <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Twin-Tail Ring System</h3>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1.1rem;">
+          Each moral choice adds a ring to one tail. Ten bosses. Ten rings. Countless paths to the Eclipse.
+        </p>
+        
+        <div class="ring-display">
+          <div class="tail-rings">
+            <p class="tail-label" style="color: #60a5fa;">Light Tail (Right)</p>
+            <div class="rings">
+              <div class="ring ring-filled-light"></div>
+              <div class="ring ring-filled-light"></div>
+              <div class="ring ring-filled-light"></div>
+              <div class="ring ring-empty"></div>
+              <div class="ring ring-empty"></div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.5);">
+              Mercy • Forgiveness • Purification
+            </p>
+          </div>
+          
+          <div style="font-size: 3rem; display: flex; align-items: center;">⚖️</div>
+          
+          <div class="tail-rings">
+            <p class="tail-label" style="color: #f472b6;">Dark Tail (Left)</p>
+            <div class="rings">
+              <div class="ring ring-filled-dark"></div>
+              <div class="ring ring-filled-dark"></div>
+              <div class="ring ring-empty"></div>
+              <div class="ring ring-empty"></div>
+              <div class="ring ring-empty"></div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.5);">
+              Judgment • Vengeance • Consumption
+            </p>
+          </div>
+        </div>
+        
+        <p style="margin-top: 2.5rem; font-size: 1.2rem; color: #a855f7;">
+          When all ten rings ignite, the Eclipse begins. Your ending depends on the balance you've created.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="py-12 border-t border-slate-200/70 dark:border-slate-800/60">
-    <div class="mx-auto max-w-7xl px-4 flex flex-col md:flex-row gap-4 md:items-center justify-between">
-      <div class="opacity-80 text-sm">© <span id="year"></span> Pectus Studio. All rights reserved.</div>
-      <div class="flex gap-4 text-sm opacity-80">
-        <a href="#hook">Hook</a>
-        <a href="#gameplay">Gameplay</a>
-        <a href="#world">World</a>
-        <a href="#media">Media</a>
-        <a href="#press">Press</a>
+  <!-- Mechanics Section -->
+  <section id="mechanics" class="mechanics-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Game Systems</p>
+        <h2 class="section-title">Deep Mechanics, Meaningful Choices</h2>
+        <p class="section-subtitle">
+          Every system in Yoru reinforces the central theme: the duality of mercy and judgment
+        </p>
+      </div>
+      
+      <div class="mechanics-grid">
+        <div class="mechanic-card">
+          <h3 class="mechanic-title">⚔️ Boss Encounters</h3>
+          <p class="mechanic-description">
+            Ten legendary yokai await, each rooted in Japanese folklore. Begin with dialogue—attempt persuasion through 
+            understanding. Fail, and combat becomes inevitable. The Oni teaches rage, the Kitsune deception, 
+            the Yuki-onna sorrow. Each boss grants one ring based on your resolution.
+          </p>
+        </div>
+        
+        <div class="mechanic-card">
+          <h3 class="mechanic-title">✨ The Shine System</h3>
+          <p class="mechanic-description">
+            Shine is your spiritual energy—the mana of souls. Powers consume Shine. 
+            It regenerates based on your karma: Light-aligned players regenerate near shrines, 
+            Dark-aligned through combat. Offer peaches or sake for instant restoration.
+          </p>
+        </div>
+        
+        <div class="mechanic-card">
+          <h3 class="mechanic-title">🍑 Peaches of Memory</h3>
+          <p class="mechanic-description">
+            A rabbit merchant offers magical peaches. Golden Peaches fully heal, Silver Peaches restore Shine, 
+            Blood Peaches grant temporary power. He calls you "Bell-tail" and speaks of a shrine keeper 
+            he once knew—a woman who showed too much mercy.
+          </p>
+        </div>
+        
+        <div class="mechanic-card">
+          <h3 class="mechanic-title">⛩️ Shrine Offerings</h3>
+          <p class="mechanic-description">
+            Shrines are sanctuaries where you save progress and rebalance karma. Offer sake to shift toward darkness, 
+            rice for light, or prayers to maintain balance. Each shrine visually reflects your moral state—
+            glowing with warmth or shrouded in shadow.
+          </p>
+        </div>
+        
+        <div class="mechanic-card">
+          <h3 class="mechanic-title">🌀 Karma Influence</h3>
+          <p class="mechanic-description">
+            Your Dark/Light ratio affects everything: High Dark Karma makes persuasion harder but combat stronger. 
+            High Light Karma opens peaceful dialogue but weakens aggressive options. 
+            The world physically transforms—fog thickness, music tone, NPC reactions all shift.
+          </p>
+        </div>
+        
+        <div class="mechanic-card">
+          <h3 class="mechanic-title">🌑 The Eclipse Event</h3>
+          <p class="mechanic-description">
+            When all ten rings are earned, an Eclipse forms overhead. This final convergence determines which 
+            of seven endings awaits. Pure Light ascends, Pure Dark burns eternal, Perfect Balance reunites the soul. 
+            The Eclipse remembers every choice.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- World Section -->
+  <section id="world" class="world-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Dynamic World</p>
+        <h2 class="section-title">A World That Breathes With Your Choices</h2>
+        <p class="section-subtitle">
+          Watch the realm transform in real-time. Every purified soul brings light. Every burned spirit deepens shadow.
+        </p>
+      </div>
+      
+      <div class="world-grid">
+        <div class="world-state">
+          <div class="world-image">
+            <!-- Replace with actual screenshot -->
+            <img src="assets/images/shrine-light.jpg" alt="Light Shrine">
+            <div style="padding: 2rem; text-align: center;">
+              <p style="font-size: 2rem;">⛩️</p>
+              <p>Light Shrine</p>
+            </div>
+          </div>
+          <div class="world-info">
+            <h4 class="world-name">Blessed Shrines</h4>
+            <p class="world-description">
+              With Light Karma, shrines glow with golden lanterns, cherry petals drift endlessly, 
+              and shrine maidens offer blessings.
+            </p>
+          </div>
+        </div>
+        
+        <div class="world-state">
+          <div class="world-image">
+            <!-- Replace with actual screenshot -->
+            <img src="assets/images/shrine-dark.jpg" alt="Dark Shrine">
+            <div style="padding: 2rem; text-align: center;">
+              <p style="font-size: 2rem;">🌑</p>
+              <p>Dark Shrine</p>
+            </div>
+          </div>
+          <div class="world-info">
+            <h4 class="world-name">Corrupted Shrines</h4>
+            <p class="world-description">
+              With Dark Karma, shrines crack with shadow, eternal moonlight bathes broken torii gates, 
+              and vengeful spirits whisper secrets.
+            </p>
+          </div>
+        </div>
+        
+        <div class="world-state">
+          <div class="world-image">
+            <!-- Replace with actual screenshot -->
+            <img src="assets/images/eclipse-tree.jpg" alt="Eclipse Tree">
+            <div style="padding: 2rem; text-align: center;">
+              <p style="font-size: 2rem;">🌳</p>
+              <p>Ancient Tree</p>
+            </div>
+          </div>
+          <div class="world-info">
+            <h4 class="world-name">The Eclipse Tree</h4>
+            <p class="world-description">
+              A massive tree beside a forgotten shrine. When the Eclipse nears, 
+              it reveals visions of a shrine keeper who defied the gods.
+            </p>
+          </div>
+        </div>
+        
+        <div class="world-state">
+          <div class="world-image">
+            <!-- Replace with actual screenshot -->
+            <img src="assets/images/village-light.jpg" alt="Light Village">
+            <div style="padding: 2rem; text-align: center;">
+              <p style="font-size: 2rem;">🏘️</p>
+              <p>Day Village</p>
+            </div>
+          </div>
+          <div class="world-info">
+            <h4 class="world-name">Village of Whispers</h4>
+            <p class="world-description">
+              In Light: Lanterns glow, children play, merchants trade. 
+              In Dark: Fog shrouds empty streets, only yokai remain.
+            </p>
+          </div>
+        </div>
+        
+        <div class="world-state">
+          <div class="world-image">
+            <!-- Replace with actual screenshot -->
+            <img src="assets/images/forest-transition.jpg" alt="Forest">
+            <div style="padding: 2rem; text-align: center;">
+              <p style="font-size: 2rem;">🌲</p>
+              <p>Hollow Woods</p>
+            </div>
+          </div>
+          <div class="world-info">
+            <h4 class="world-name">The Hollow Woods</h4>
+            <p class="world-description">
+              Cedar forests that shift between sun-dappled paths and shadow-twisted labyrinths 
+              based on your accumulated karma.
+            </p>
+          </div>
+        </div>
+        
+        <div class="world-state">
+          <div class="world-image">
+            <!-- Replace with actual screenshot -->
+            <img src="assets/images/river-souls.jpg" alt="River">
+            <div style="padding: 2rem; text-align: center;">
+              <p style="font-size: 2rem;">🌊</p>
+              <p>Spirit River</p>
+            </div>
+          </div>
+          <div class="world-info">
+            <h4 class="world-name">River of Remorse</h4>
+            <p class="world-description">
+              Souls float as lotus flowers in light, or sink as will-o'-wisps in darkness. 
+              Your reflection shows different forms.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Visual Journey</p>
+        <h2 class="section-title">Experience the Duality</h2>
+        <p class="section-subtitle">
+          From serene temples to haunted shrines, witness a world shaped by moral choice
+        </p>
+      </div>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <!-- Replace with actual screenshot -->
+          <img src="assets/images/screenshot1.jpg" alt="Yoru with glowing tails">
+          <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 2rem;">🐈‍⬛</p>
+            <p>Yoru's Glowing Tails</p>
+          </div>
+          <div class="gallery-caption">
+            <h4>The Twin-Tail System</h4>
+            <p>Watch as rings ignite with each moral choice</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <!-- Replace with actual screenshot -->
+          <img src="assets/images/screenshot2.jpg" alt="Oni Boss">
+          <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 2rem;">👹</p>
+            <p>First Boss: The Oni</p>
+          </div>
+          <div class="gallery-caption">
+            <h4>The Oni Encounter</h4>
+            <p>Face rage incarnate—persuade or punish</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <!-- Replace with actual screenshot -->
+          <img src="assets/images/screenshot3.jpg" alt="Choice UI">
+          <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 2rem;">⚖️</p>
+            <p>Moral Choice</p>
+          </div>
+          <div class="gallery-caption">
+            <h4>The Choice Interface</h4>
+            <p>Every encounter offers purification or punishment</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <!-- Replace with actual screenshot -->
+          <img src="assets/images/screenshot4.jpg" alt="World Transformation">
+          <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 2rem;">🌅</p>
+            <p>World Shift</p>
+          </div>
+          <div class="gallery-caption">
+            <h4>Real-time Transformation</h4>
+            <p>Watch the world change with your karma</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <!-- Replace with actual screenshot -->
+          <img src="assets/images/screenshot5.jpg" alt="Spirit Encounter">
+          <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 2rem;">👻</p>
+            <p>Lost Soul</p>
+          </div>
+          <div class="gallery-caption">
+            <h4>Spirit Encounters</h4>
+            <p>Each soul has a story, a regret, a choice</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <!-- Replace with actual screenshot -->
+          <img src="assets/images/screenshot6.jpg" alt="Eclipse Beginning">
+          <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 2rem;">🌑</p>
+            <p>The Eclipse</p>
+          </div>
+          <div class="gallery-caption">
+            <h4>The Eclipse Approaches</h4>
+            <p>When all rings ignite, destiny awaits</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demo" class="moral-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Try It Yourself</p>
+        <h2 class="section-title">Demo Coming Soon</h2>
+        <p class="section-subtitle">
+          Experience the first hour of Yoru's journey. Face the Oni. Make your first moral choice. 
+          Watch the world transform.
+        </p>
+      </div>
+      
+      <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 1.5rem; padding: 3rem; text-align: center; max-width: 800px; margin: 0 auto;">
+        <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: #a855f7;">Demo Features</h3>
+        <ul style="list-style: none; text-align: left; max-width: 600px; margin: 0 auto; font-size: 1.15rem; line-height: 2;">
+          <li>✓ First boss encounter: The Oni</li>
+          <li>✓ Complete Light/Dark world transformation</li>
+          <li>✓ 3 spirit encounters with moral choices</li>
+          <li>✓ Ring progression system introduction</li>
+          <li>✓ Save system to carry progress to full game</li>
+        </ul>
+        
+        <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="btn-primary" style="margin-top: 2rem; display: inline-block;">
+          🎮 Wishlist for Demo Access
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-text">
+        © 2025 Pectus Studio<br>
+        Solo Dev by Asena Hazal • Ottawa, Canada<br>
+        Unity 6 • Inspired by Japanese Folklore
+      </div>
+      
+      <div class="social-links">
+        <a href="https://github.com/pectus-g" target="_blank" class="social-link">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+        <a href="https://x.com/PectusG" target="_blank" class="social-link">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+          </svg>
+        </a>
+        <a href="https://www.reddit.com/user/Visible_Signal_4084/" target="_blank" class="social-link">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+          </svg>
+        </a>
+        <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="social-link">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M11.64 5.93h1.43v4.28h-1.43m3.93-4.28H17v4.28h-1.43M7 7.71v1.43h4.28V7.71m0 3.57v1.43h4.28v-1.43m0 3.93v1.43h4.28V13.5M0 19.64C0 21.75 1.61 23 3.72 23c2.11 0 3.93-1.25 3.93-3.36v-3.93H3.72C1.61 15.71 0 17.53 0 19.64z"/>
+          </svg>
+        </a>
       </div>
     </div>
   </footer>
 
-  <!-- JS: starfield, theme toggle, mobile menu, year -->
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Particle System
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouseX = 0;
+    let mouseY = 0;
 
-    // Theme toggle (persists)
-    const root = document.documentElement;
-    const storageKey = 'yoru-theme';
-    const saved = localStorage.getItem(storageKey);
-    if (saved) root.classList.toggle('dark', saved === 'dark');
-    const setIcon = () => {
-      const dark = root.classList.contains('dark');
-      const btn = document.getElementById('themeToggle');
-      const btnM = document.getElementById('themeToggleM');
-      if (btn) btn.textContent = dark ? '☀️' : '🌙';
-      if (btnM) btnM.textContent = dark ? '☀️ Light' : '🌙 Dark';
-    };
-    setIcon();
-    function toggleTheme() {
-      const nowDark = !root.classList.contains('dark');
-      root.classList.toggle('dark', nowDark);
-      localStorage.setItem(storageKey, nowDark ? 'dark' : 'light');
-      setIcon();
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-    document.getElementById('themeToggleM')?.addEventListener('click', toggleTheme);
-
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn?.addEventListener('click', () => {
-      mobileMenu.style.maxHeight = mobileMenu.style.maxHeight && mobileMenu.style.maxHeight !== '0px' ? '0px' : '400px';
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Mouse tracking
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      if(Math.random() > 0.85) {
+        createParticle(mouseX, mouseY);
+      }
     });
-
-    // Starfield
-   (function starfield(){
-    const c = document.getElementById('yoru-stars');
-    if (!c) return;
-    const ctx = c.getContext('2d', { alpha: true });
-
-    let w, h, dpr, stars, sparkles, meteors, raf;
-    const DENSITY = 0.02;        // base: stars per vw (increase for more stars)
-    const TWINKLE_STRENGTH = 0.1; // 0–1 how strong the flicker is
-    const SPARKLE_RATE = 0.0005;   // chance per frame to spawn a fairy sparkle
-    const METEOR_RATE  = 0.00005;  // chance per frame to spawn a faint meteor
-
-    function resize() {
-      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      w = c.width  = Math.floor(window.innerWidth  * dpr);
-      h = c.height = Math.floor(Math.max(window.innerHeight * 0.72, 520) * dpr);
-      c.style.width  = (w / dpr) + 'px';
-      c.style.height = (h / dpr) + 'px';
-
-      const count = Math.floor((window.innerWidth * DENSITY));
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: (Math.random() * 1.4 + 0.3) * dpr,
-        phase: Math.random() * Math.PI * 2,
-        speed: (Math.random() * 0.015 + 0.008) * (0.85 + Math.random()*0.3),
-        baseA: 0.2 + Math.random() * 0.4,
-        hue: 220 + Math.random() * 60, // slight blue-indigo variance
-        glow: 6 + Math.random() * 14
-      }));
-
-      sparkles = []; // short-lived bright fairy twinkles
-      meteors  = []; // very faint shooting stars
-    }
-
-    function addSparkle(x, y) {
-      const life = 35 + Math.random() * 25;
-      sparkles.push({
-        x, y,
-        r: 1.5 * dpr + Math.random() * (3 * dpr),
-        t: 0,
-        life,
-        rot: Math.random() * Math.PI,
+    
+    function createParticle(x, y) {
+      const side = x < window.innerWidth / 2 ? 'purple' : 'blue';
+      particles.push({
+        x: x,
+        y: y,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2 - 0.5,
+        size: Math.random() * 3 + 1,
+        life: 60,
+        maxLife: 60,
+        color: side === 'purple' 
+          ? 'rgba(168, 85, 247, 0.5)'
+          : 'rgba(59, 130, 246, 0.5)'
       });
     }
-
-    function addMeteor() {
-      const y = Math.random() * (h * 0.6);
-      meteors.push({
-        x: -40 * dpr,
-        y,
-        vx: (3.5 + Math.random() * 2.5) * dpr,
-        vy: (0.4 + Math.random() * 0.6) * dpr,
-        life: 120 + Math.random() * 80,
-        t: 0
+    
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles = particles.filter(particle => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.life--;
+        
+        if(particle.life <= 0) return false;
+        
+        const opacity = particle.life / particle.maxLife;
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = particle.color;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        return true;
       });
+      
+      requestAnimationFrame(animateParticles);
     }
-
-    function drawStar(s) {
-      s.phase += s.speed;
-      const tw = (Math.sin(s.phase) * 0.5 + 0.5) * TWINKLE_STRENGTH;
-      const a = Math.min(1, s.baseA + tw);
-
-      ctx.shadowBlur = s.glow;
-      ctx.shadowColor = `hsla(${s.hue}, 90%, 85%, ${a})`;
-      ctx.fillStyle   = `hsla(${s.hue}, 100%, 96%, ${a})`;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r + tw * (1.4 * dpr), 0, Math.PI * 2);
-      ctx.fill();
-
-      // rare: promote to a fairy sparkle
-      if (Math.random() < SPARKLE_RATE) addSparkle(s.x, s.y);
-    }
-
-    function drawSparkle(sp) {
-      sp.t++;
-      const p = sp.t / sp.life;                      // 0..1
-      const pulse = Math.sin(p * Math.PI);           // ease in/out
-      const a = 0.25 + 0.75 * (1 - p) * pulse;
-
-      ctx.save();
-      ctx.translate(sp.x, sp.y);
-      ctx.rotate(sp.rot);
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.shadowBlur = 18 * dpr;
-      ctx.shadowColor = `rgba(255,255,255,${a})`;
-
-      // core glow
-      const r = sp.r * (1 + pulse * 1.8);
-      const g = ctx.createRadialGradient(0,0,0, 0,0, r*2.2);
-      g.addColorStop(0,   `rgba(255,255,255,${a})`);
-      g.addColorStop(0.6, `rgba(255,255,255,${a*0.35})`);
-      g.addColorStop(1,   `rgba(255,255,255,0)`);
-      ctx.fillStyle = g;
-      ctx.beginPath(); ctx.arc(0,0, r*2.2, 0, Math.PI*2); ctx.fill();
-
-      // tiny 4-point star glint
-      ctx.globalAlpha = a;
-      const len = r * 1.8, thin = Math.max(0.6, r * 0.18);
-      ctx.fillRect(-len, -thin/2, len*2, thin);
-      ctx.fillRect(-thin/2, -len, thin, len*2);
-
-      ctx.restore();
-    }
-
-    function drawMeteor(m) {
-      m.t++;
-      m.x += m.vx;
-      m.y += m.vy;
-      const p = m.t / m.life;
-      const a = Math.max(0, 0.45 * (1 - p));
-      const tail = 80 * dpr;
-
-      ctx.save();
-      ctx.globalCompositeOperation = 'lighter';
-      const grad = ctx.createLinearGradient(m.x - tail, m.y - (m.vy*tail/m.vx), m.x, m.y);
-      grad.addColorStop(0, `rgba(255,255,255,0)`);
-      grad.addColorStop(1, `rgba(255,255,255,${a})`);
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.2 * dpr;
-      ctx.beginPath();
-      ctx.moveTo(m.x - tail, m.y - (m.vy*tail/m.vx));
-      ctx.lineTo(m.x, m.y);
-      ctx.stroke();
-
-      ctx.shadowBlur = 12 * dpr;
-      ctx.shadowColor = `rgba(255,255,255,${a})`;
-      ctx.fillStyle = `rgba(255,255,255,${a})`;
-      ctx.beginPath();
-      ctx.arc(m.x, m.y, 1.8 * dpr, 0, Math.PI*2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    function draw() {
-      ctx.clearRect(0,0,w,h);
-
-      // blend for nice light accumulation
-      ctx.globalCompositeOperation = 'lighter';
-
-      // stars
-      for (let i=0;i<stars.length;i++) drawStar(stars[i]);
-
-      // sparkles
-      for (let i=sparkles.length-1;i>=0;i--) {
-        drawSparkle(sparkles[i]);
-        if (sparkles[i].t >= sparkles[i].life) sparkles.splice(i,1);
-      }
-
-      // meteors (very rare and faint)
-      if (Math.random() < METEOR_RATE) addMeteor();
-      for (let i=meteors.length-1;i>=0;i--) {
-        drawMeteor(meteors[i]);
-        if (meteors[i].t >= meteors[i].life || meteors[i].x > w+50*dpr) meteors.splice(i,1);
-      }
-
-      raf = requestAnimationFrame(draw);
-    }
-
-    resize();
-    draw();
-
-    window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
-    window.addEventListener('visibilitychange', () => {
-      if (document.hidden) cancelAnimationFrame(raf); else draw();
+    
+    animateParticles();
+    
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
-  })();
   </script>
 </body>
 </html>
