@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yoru: Eclipse of Tails - Where Japanese Horror Meets Moral Choice</title>
+  <title>Yoru: Eclipse of Two Tails - A Tale of Mercy and Judgment</title>
   
   <style>
     * {
@@ -75,6 +75,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50%;
     }
     
     .logo-text {
@@ -136,7 +137,7 @@
       box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
     }
     
-    /* Hero Section */
+    /* Hero Section with Video */
     .hero {
       min-height: 100vh;
       position: relative;
@@ -147,6 +148,40 @@
       padding-top: 80px;
     }
     
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    
+    .hero-video-bg video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      opacity: 0.4;
+    }
+    
+    .hero-video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(10, 10, 15, 0.8) 100%);
+      z-index: 2;
+    }
+    
+    /* Fallback gradient background if video doesn't load */
     .hero-bg {
       position: absolute;
       top: 0;
@@ -241,7 +276,7 @@
       color: rgba(255, 255, 255, 0.8);
       margin-bottom: 3rem;
       line-height: 1.8;
-      max-width: 800px;
+      max-width: 900px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -390,8 +425,9 @@
     .section-subtitle {
       font-size: 1.3rem;
       color: rgba(255, 255, 255, 0.7);
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
+      line-height: 1.8;
     }
     
     /* Choice Cards */
@@ -485,12 +521,23 @@
       justify-content: center;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
     }
     
     .choice-screenshot img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    
+    .choice-screenshot-placeholder {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .choice-screenshot-placeholder .emoji {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
     }
     
     /* Ring System Display */
@@ -632,6 +679,16 @@
       object-fit: cover;
     }
     
+    .world-image-placeholder {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .world-image-placeholder .emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
     .world-info {
       padding: 1.5rem;
     }
@@ -670,6 +727,9 @@
       cursor: pointer;
       transition: all 0.3s;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .gallery-item:hover {
@@ -681,6 +741,17 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    
+    .gallery-placeholder {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+      padding: 2rem;
+    }
+    
+    .gallery-placeholder .emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
     }
     
     .gallery-caption {
@@ -711,7 +782,7 @@
     
     .video-wrapper {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
       border-radius: 1rem;
@@ -726,6 +797,129 @@
       width: 100%;
       height: 100%;
       border: none;
+    }
+    
+    /* Stay Updated Section */
+    .stay-updated-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, rgba(168, 85, 247, 0.05), transparent);
+    }
+    
+    .stay-updated-container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .stay-updated-title {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+    }
+    
+    .stay-updated-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .stay-updated-list {
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      line-height: 2;
+    }
+    
+    .stay-updated-list li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    
+    .newsletter-input {
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 1rem;
+      min-width: 300px;
+      transition: all 0.3s;
+    }
+    
+    .newsletter-input:focus {
+      outline: none;
+      border-color: #a855f7;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+    
+    .newsletter-button {
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+    }
+    
+    .newsletter-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
+    }
+    
+    .social-follow {
+      margin-top: 2rem;
+    }
+    
+    .social-follow-text {
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    
+    .social-links-grid {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .social-link-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+    }
+    
+    .social-link-button:hover {
+      background: rgba(168, 85, 247, 0.1);
+      border-color: rgba(168, 85, 247, 0.3);
+      transform: translateY(-2px);
+      color: #a855f7;
     }
     
     /* Footer */
@@ -758,6 +952,7 @@
     .social-link {
       color: rgba(255, 255, 255, 0.5);
       transition: all 0.3s;
+      font-size: 1.5rem;
     }
     
     .social-link:hover {
@@ -802,6 +997,15 @@
       .hook-title {
         font-size: 2rem;
       }
+      
+      .newsletter-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .newsletter-input {
+        min-width: 100%;
+      }
     }
   </style>
 </head>
@@ -814,15 +1018,14 @@
     <div class="nav-container">
       <a href="#" class="logo">
         <div class="logo-icon">
-          <!-- Replace with your actual logo -->
-          <!-- <img src="assets/images/logo.png" alt="Yoru Logo"> -->
-          🐈‍⬛
+          <!-- YOUR LOGO IMAGE GOES HERE -->
+          <img src="assets/images/logo.png" alt="Yoru Logo">
         </div>
         <span class="logo-text">Yoru</span>
       </a>
       
       <ul class="nav-menu">
-        <li><a href="#hook">Hook</a></li>
+        <li><a href="#hook">Story</a></li>
         <li><a href="#choice">Moral Choice</a></li>
         <li><a href="#gameplay">Gameplay</a></li>
         <li><a href="#world">World</a></li>
@@ -836,8 +1039,18 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Hero Section with Video -->
   <section class="hero">
+    <!-- Video Background -->
+    <div class="hero-video-bg">
+      <!-- YOUR HERO VIDEO GOES HERE -->
+      <video autoplay muted loop playsinline>
+        <source src="assets/videos/hero-video.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay"></div>
+    </div>
+    
+    <!-- Fallback Gradient Background -->
     <div class="hero-bg">
       <div class="gradient-orb orb-1"></div>
       <div class="gradient-orb orb-2"></div>
@@ -846,12 +1059,16 @@
     
     <div class="hero-content">
       <h1>Yoru</h1>
-      <p class="hero-subtitle">Eclipse of Tails</p>
+      <p class="hero-subtitle">Eclipse of Two Tails</p>
       <p class="hero-description">
-        You are a Nekomata—a two-tailed cat spirit caught between mercy and judgment. 
-        Every soul you encounter tells a tale from Japanese folklore. Every choice shapes both your tails and their tales.
-        <strong>Purify with compassion</strong> or <strong>Burn with righteous flame</strong>. 
-        Five rings on each tail track your path through stories of horror and redemption.
+        A nekomata walks the edge between forgiveness and punishment, seeking a past forgotten and a future unwritten.
+        <br><br>
+        In a realm where spirits linger and folklore breathes, ten souls await—each now a monster, each once as innocent as any being born into this world. Loneliness twisted some. Betrayal hardened others. Loss consumed the rest.
+        <br><br>
+        Will you remember what they were before the world broke them? Or will you find the strength to end what they have become?
+        <br><br>
+        <strong>One tail glows with mercy. One tail burns with judgment.</strong><br>
+        When both hold five souls, the Eclipse reveals itself—and the balance few can bear.
       </p>
       
       <div class="hero-buttons">
@@ -868,33 +1085,33 @@
   <!-- Hook Section -->
   <section id="hook" class="hook-section">
     <div class="hook-container">
-      <h2 class="hook-title">Every Japanese Horror Tale Has Two Sides.<br>Which Will You Choose?</h2>
+      <h2 class="hook-title">A Tale of Monsters Who Were Once Innocent</h2>
       
       <div class="hook-content">
         <div class="hook-card">
           <div class="hook-icon">👹</div>
-          <h3 class="hook-card-title">Face Legendary Yokai</h3>
+          <h3 class="hook-card-title">What Makes a Monster?</h3>
           <p class="hook-card-text">
-            Ten bosses from authentic Japanese folklore await. The Oni's rage, the Kitsune's deception, 
-            the Yuki-onna's sorrow—each spirit carries centuries-old tales told to children as warnings.
+            Every yokai you face was born innocent. A fox who loved too deeply. A warrior who grieved too long. 
+            A spirit who was simply forgotten. They are monsters now—but does that erase what they were?
           </p>
         </div>
         
         <div class="hook-card">
           <div class="hook-icon">⚖️</div>
-          <h3 class="hook-card-title">True Moral Choice</h3>
+          <h3 class="hook-card-title">Two Paths, No Wrong Answers</h3>
           <p class="hook-card-text">
-            No predetermined "good" or "evil" paths. Every spirit deserves mercy. Every spirit deserves punishment. 
-            You decide which tale they become—redemption or retribution.
+            Forgiveness is not weakness. Punishment is not cruelty. Each choice demands courage. 
+            Each shapes the world around you—turning day to dusk, peace to shadow, warmth to cold.
           </p>
         </div>
         
         <div class="hook-card">
           <div class="hook-icon">🌑</div>
-          <h3 class="hook-card-title">Your World Transforms</h3>
+          <h3 class="hook-card-title">The Eclipse Awaits</h3>
           <p class="hook-card-text">
-            Watch cherry blossoms bloom or wither to ash. See shrines restore or crack with shadow. 
-            Every choice reshapes the realm in real-time, turning day to night, peace to horror.
+            When your tails hold ten souls between them, the Eclipse forms overhead. Few find the balance. 
+            Fewer understand what it means. Will you?
           </p>
         </div>
       </div>
@@ -905,11 +1122,10 @@
   <section id="choice" class="moral-section">
     <div class="container">
       <div class="section-header">
-        <p class="section-label">Core Mechanic</p>
-        <h2 class="section-title">Two Tails. Ten Rings. Infinite Tales.</h2>
+        <p class="section-label">The Heart of Choice</p>
+        <h2 class="section-title">Two Tails. Ten Souls. One Eclipse.</h2>
         <p class="section-subtitle">
-          Each boss encounter begins with their tale—a story of how they became what they are. 
-          Will you add a chapter of redemption or write their final judgment?
+          A nekomata's tails are not marks of good and evil—they are mirrors of choice. Your right tail glows when you choose to remember their innocence. Your left tail burns when you choose to end their suffering. Neither path is wrong. Both have power. Both have cost.
         </p>
       </div>
       
@@ -918,15 +1134,16 @@
         <div class="choice-card light-choice">
           <h3 class="choice-title">
             <span style="font-size: 2.5rem;">🕊️</span>
-            Path of Purification
+            Path of Forgiveness
           </h3>
           
           <div class="choice-screenshot">
-            <!-- Replace with actual light world screenshot -->
-            <img src="assets/images/light-world.jpg" alt="Light World">
-            <div style="text-align: center; padding: 1rem;">
-              <p style="font-size: 2rem;">☀️</p>
-              <p style="color: rgba(255,255,255,0.5);">Light World Screenshot</p>
+            <!-- PLACEHOLDER - Replace src with: assets/images/light-world.jpg -->
+            <img src="assets/images/light-world.jpg" alt="Light World" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="choice-screenshot-placeholder" style="display: none;">
+              <div class="emoji">☀️</div>
+              <p>Your Light World Screenshot</p>
+              <small style="color: rgba(255,255,255,0.4);">Replace: assets/images/light-world.jpg</small>
             </div>
           </div>
           
@@ -934,33 +1151,29 @@
             <li>
               <span class="icon">✨</span>
               <div>
-                <strong>Understand Their Tale</strong><br>
-                Use dialogue trees to uncover their human story. Offer sake, peaches, or prayers. 
-                Each purified soul teaches you their tale and grants Light Karma.
+                <strong>Remember Their Innocence</strong><br>
+                Use dialogue to uncover their story before they became monsters. Every forgiven soul adds a glowing ring to your right tail.
               </div>
             </li>
             <li>
-              <span class="icon">🌸</span>
+              <span class="icon">🍂</span>
               <div>
-                <strong>World Blooms with Your Mercy</strong><br>
-                Cherry blossoms bloom, shrines restore themselves, bells ring in harmony. 
-                NPCs approach you willingly, sharing secrets and assistance.
+                <strong>The World Blooms</strong><br>
+                Autumn trees burn crimson under clear skies, wildflowers bloom along sacred paths, and waterfalls sing in daylight. The world feels warm, alive, at peace.
               </div>
             </li>
             <li>
               <span class="icon">💫</span>
               <div>
-                <strong>Gain Purification Powers</strong><br>
-                Each Light Ring unlocks abilities: Healing Burst, Spirit Guidance, Sacred Barriers. 
-                Your Shine regenerates faster near temples and holy grounds.
+                <strong>Mercy Has Power</strong><br>
+                Forgiveness unlocks abilities of healing and guidance. Your spirit regenerates near shrines. Peaceful souls offer secrets and aid.
               </div>
             </li>
           </ul>
           
           <div style="padding: 1.5rem; background: rgba(96, 165, 250, 0.1); border-radius: 0.75rem; margin-top: 1rem;">
             <p style="font-size: 1.1rem; color: #60a5fa;">
-              <strong>Light Karma Effects:</strong> Easier persuasion in boss encounters • Fog lifts revealing hidden paths • 
-              Peaceful spirits offer aid • Your right tail glows with golden rings
+              <strong>Walk in Light:</strong> Each act of mercy shapes the world toward warmth and peace. But mercy demands understanding the unforgivable.
             </p>
           </div>
         </div>
@@ -973,11 +1186,12 @@
           </h3>
           
           <div class="choice-screenshot">
-            <!-- Replace with actual dark world screenshot -->
-            <img src="assets/images/dark-world.jpg" alt="Dark World">
-            <div style="text-align: center; padding: 1rem;">
-              <p style="font-size: 2rem;">🌙</p>
-              <p style="color: rgba(255,255,255,0.5);">Dark World Screenshot</p>
+            <!-- PLACEHOLDER - Replace src with: assets/images/dark-world.jpg -->
+            <img src="assets/images/dark-world.jpg" alt="Dark World" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="choice-screenshot-placeholder" style="display: none;">
+              <div class="emoji">🌙</div>
+              <p>Your Dark World Screenshot</p>
+              <small style="color: rgba(255,255,255,0.4);">Replace: assets/images/dark-world.jpg</small>
             </div>
           </div>
           
@@ -985,33 +1199,29 @@
             <li>
               <span class="icon">⚡</span>
               <div>
-                <strong>End Their Twisted Tale</strong><br>
-                Judge the corrupted through combat. Consume their dark energy to fuel your power. 
-                Each burned soul strengthens your resolve and grants Dark Karma.
+                <strong>Find the Strength to Punish</strong><br>
+                Face powerful yokai in combat. Some sins cannot be undone. Every punished soul adds a burning ring to your left tail.
               </div>
             </li>
             <li>
               <span class="icon">🌑</span>
               <div>
-                <strong>World Reflects Your Judgment</strong><br>
-                Eternal moonlight falls, fog thickens, shadows lengthen. 
-                NPCs fear you but reveal different truths born from terror.
+                <strong>The World Transforms</strong><br>
+                Twilight descends. Spirit lanterns glow, waters shimmer with ghostly light. The air grows heavy. Whispers echo. The world is still breathtaking, but now it is eerie, haunted by the weight of your judgment.
               </div>
             </li>
             <li>
               <span class="icon">🔥</span>
               <div>
-                <strong>Gain Judgment Powers</strong><br>
-                Each Dark Ring unlocks abilities: Shadow Fire, Soul Burn, Vengeful Dash. 
-                Your Shine regenerates through combat and near corrupted zones.
+                <strong>Judgment Has Power</strong><br>
+                Punishment unlocks abilities of flame and shadow. Your spirit regenerates through combat. Yokai paths open, revealing forbidden knowledge.
               </div>
             </li>
           </ul>
           
           <div style="padding: 1.5rem; background: rgba(244, 114, 182, 0.1); border-radius: 0.75rem; margin-top: 1rem;">
             <p style="font-size: 1.1rem; color: #f472b6;">
-              <strong>Dark Karma Effects:</strong> Harder persuasion but stronger combat • Hidden yokai paths open • 
-              Corrupted spirits grant forbidden knowledge • Your left tail burns with crimson rings
+              <strong>Walk in Shadow:</strong> Each act of judgment demands strength and resolve. But punishment carries the weight of every soul you end.
             </p>
           </div>
         </div>
@@ -1019,9 +1229,10 @@
       
       <!-- Ring System Display -->
       <div class="ring-system">
-        <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Twin-Tail Ring System</h3>
+        <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Twin-Tail System</h3>
         <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1.1rem;">
-          Each moral choice adds a ring to one tail. Ten bosses. Ten rings. Ten tales. Countless paths to the Eclipse.
+          Each moral choice adds a ring to one tail. Ten souls. Ten rings. Ten tales.<br>
+          And when both tails ignite, the Eclipse begins—revealing a truth only those who walk the edge can comprehend.
         </p>
         
         <div class="ring-display">
@@ -1035,7 +1246,7 @@
               <div class="ring ring-empty"></div>
             </div>
             <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.5);">
-              Mercy • Forgiveness • Purification
+              Mercy • Forgiveness • Remembrance
             </p>
           </div>
           
@@ -1051,13 +1262,13 @@
               <div class="ring ring-empty"></div>
             </div>
             <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.5);">
-              Judgment • Vengeance • Retribution
+              Judgment • Strength • Finality
             </p>
           </div>
         </div>
         
-        <p style="margin-top: 2.5rem; font-size: 1.2rem; color: #a855f7;">
-          When all ten rings ignite, the Eclipse begins. Your ending depends on the balance of tales you've created.
+        <p style="margin-top: 2.5rem; font-size: 1.2rem; color: #a855f7; line-height: 1.6;">
+          Neither is destruction. Neither is salvation. Both are transformations of the same realm, shaped by the weight of ten tales you will write.
         </p>
       </div>
     </div>
@@ -1067,65 +1278,59 @@
   <section id="gameplay" class="gameplay-section">
     <div class="container">
       <div class="section-header">
-        <p class="section-label">Gameplay Systems</p>
-        <h2 class="section-title">Where Horror Tales Meet Player Choice</h2>
+        <p class="section-label">Gameplay</p>
+        <h2 class="section-title">Where Folklore Meets Choice</h2>
         <p class="section-subtitle">
-          Every system reinforces the duality of tails and tales—your physical transformation mirrors the stories you shape
+          Every system reinforces the duality—your tails mirror the tales you shape
         </p>
       </div>
       
       <div class="gameplay-grid">
         <div class="gameplay-card">
-          <h3 class="gameplay-title">👹 Yokai Boss Tales</h3>
+          <h3 class="gameplay-title">👹 Ten Yokai, Ten Tales</h3>
           <p class="gameplay-description">
-            Ten legendary yokai from Japanese horror folklore await. Each carries a tale—the Oni's rage from betrayal, 
-            the Kitsune's tricks born from loneliness, the Yuki-onna's frozen heart from lost love. 
-            Begin with dialogue to understand their story, then choose their fate.
+            Ten legendary spirits from Japanese folklore await. Each carries a tale—the Oni's rage from betrayal, 
+            the Kitsune's tricks born from loneliness. Begin with dialogue to understand their story, then choose their fate.
           </p>
         </div>
         
         <div class="gameplay-card">
           <h3 class="gameplay-title">✨ The Shine System</h3>
           <p class="gameplay-description">
-            Shine is your spiritual energy—the mana of souls. Powers consume Shine. 
-            It regenerates based on your karma: Light-aligned players regenerate near shrines, 
-            Dark-aligned through combat. Offer peaches or sake for instant restoration.
+            Shine is your spiritual energy. Powers consume Shine. It regenerates based on your choices: 
+            forgiveness regenerates near shrines, punishment through combat. Balance grants steady flow.
           </p>
         </div>
         
         <div class="gameplay-card">
-          <h3 class="gameplay-title">🍑 Peaches of Memory</h3>
+          <h3 class="gameplay-title">🍑 Offerings & Sanctuaries</h3>
           <p class="gameplay-description">
-            A rabbit merchant offers magical peaches. Golden Peaches fully heal, Silver Peaches restore Shine, 
-            Blood Peaches grant temporary power. He calls you "Bell-tail" and speaks of a shrine keeper 
-            he once knew—a woman who showed too much mercy.
+            Find shrines to save your journey and restore your spirit. Offer peaches for healing, sake for power. 
+            Each shrine reflects your path—glowing with warmth or shrouded in shadow.
           </p>
         </div>
         
         <div class="gameplay-card">
-          <h3 class="gameplay-title">⛩️ Shrine Offerings</h3>
+          <h3 class="gameplay-title">⛩️ A World That Remembers</h3>
           <p class="gameplay-description">
-            Shrines are sanctuaries where you save progress and rebalance karma. Offer sake to shift toward darkness, 
-            rice for light, or prayers to maintain balance. Each shrine visually reflects your moral state—
-            glowing with warmth or shrouded in shadow.
+            Your choices transform everything: atmosphere, music, NPC reactions. High forgiveness opens peaceful dialogue. 
+            High punishment strengthens combat. The world physically shifts with every tale you write.
           </p>
         </div>
         
         <div class="gameplay-card">
-          <h3 class="gameplay-title">🌀 Karma Influence</h3>
+          <h3 class="gameplay-title">🌀 Hidden Depths</h3>
           <p class="gameplay-description">
-            Your Dark/Light ratio affects everything: High Dark Karma makes persuasion harder but combat stronger. 
-            High Light Karma opens peaceful dialogue but weakens aggressive options. 
-            The world physically transforms—fog thickness, music tone, NPC reactions all shift.
+            Beyond the ten main souls lie side tales—smaller spirits with their own regrets. 
+            Each offers glimpses of a deeper story, a shrine, a family, and choices that echo across lifetimes.
           </p>
         </div>
         
         <div class="gameplay-card">
-          <h3 class="gameplay-title">🌑 The Eclipse Event</h3>
+          <h3 class="gameplay-title">🌑 The Eclipse Convergence</h3>
           <p class="gameplay-description">
-            When all ten rings are earned, an Eclipse forms overhead. This final convergence determines which 
-            of seven endings awaits. Pure Light ascends, Pure Dark burns eternal, Perfect Balance reunites the soul. 
-            The Eclipse remembers every tale you've shaped.
+            When all ten rings ignite, an Eclipse forms overhead. This final convergence determines your ending. 
+            The Eclipse remembers every tale you've shaped, every choice you've made.
           </p>
         </div>
       </div>
@@ -1137,117 +1342,107 @@
     <div class="container">
       <div class="section-header">
         <p class="section-label">Dynamic World</p>
-        <h2 class="section-title">A World That Breathes With Your Choices</h2>
+        <h2 class="section-title">A Realm That Breathes With Your Choices</h2>
         <p class="section-subtitle">
-          Watch the realm transform in real-time. Every purified soul brings light. Every burned spirit deepens shadow.
+          This realm breathes with your choices. Walk the path of forgiveness, and autumn trees burn crimson under clear skies. 
+          Choose punishment, and twilight descends—the same beauty remains, but the air grows heavy with spirits watching from shadows.
         </p>
       </div>
       
       <div class="world-grid">
         <div class="world-state">
           <div class="world-image">
-            <!-- Replace with actual screenshot -->
-            <img src="assets/images/shrine-light.jpg" alt="Light Shrine">
-            <div style="padding: 2rem; text-align: center;">
-              <p style="font-size: 2rem;">⛩️</p>
+            <!-- PLACEHOLDER - Add your screenshots later -->
+            <img src="assets/images/shrine-light.jpg" alt="Light Shrine" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="world-image-placeholder" style="display: none;">
+              <div class="emoji">⛩️</div>
               <p>Blessed Shrine</p>
             </div>
           </div>
           <div class="world-info">
-            <h4 class="world-name">Blessed Shrines</h4>
+            <h4 class="world-name">Path of Light</h4>
             <p class="world-description">
-              With Light Karma, shrines glow with golden lanterns, cherry petals drift endlessly, 
-              and shrine maidens offer blessings.
+              Golden lanterns glow at shrines, autumn leaves drift endlessly, waterfalls sing—the world feels warm and alive.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
-            <!-- Replace with actual screenshot -->
-            <img src="assets/images/shrine-dark.jpg" alt="Dark Shrine">
-            <div style="padding: 2rem; text-align: center;">
-              <p style="font-size: 2rem;">🌑</p>
-              <p>Corrupted Shrine</p>
+            <img src="assets/images/shrine-dark.jpg" alt="Dark Shrine" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="world-image-placeholder" style="display: none;">
+              <div class="emoji">🌑</div>
+              <p>Shadowed Shrine</p>
             </div>
           </div>
           <div class="world-info">
-            <h4 class="world-name">Corrupted Shrines</h4>
+            <h4 class="world-name">Path of Shadow</h4>
             <p class="world-description">
-              With Dark Karma, shrines crack with shadow, eternal moonlight bathes broken torii gates, 
-              and vengeful spirits whisper forbidden tales.
+              Eternal twilight bathes broken torii gates, spirit whispers echo, waters glow with ghostly light—beautiful yet eerie.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
-            <!-- Replace with actual screenshot -->
-            <img src="assets/images/eclipse-tree.jpg" alt="Eclipse Tree">
-            <div style="padding: 2rem; text-align: center;">
-              <p style="font-size: 2rem;">🌳</p>
+            <img src="assets/images/eclipse-tree.jpg" alt="Eclipse Tree" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="world-image-placeholder" style="display: none;">
+              <div class="emoji">🌳</div>
               <p>Ancient Tree</p>
             </div>
           </div>
           <div class="world-info">
             <h4 class="world-name">The Eclipse Tree</h4>
             <p class="world-description">
-              A massive tree beside a forgotten shrine. When the Eclipse nears, 
-              it reveals visions of a shrine keeper who defied the gods—your origin tale.
+              A massive tree beside a forgotten shrine. When the Eclipse nears, it reveals visions of those who came before.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
-            <!-- Replace with actual screenshot -->
-            <img src="assets/images/village-light.jpg" alt="Light Village">
-            <div style="padding: 2rem; text-align: center;">
-              <p style="font-size: 2rem;">🏘️</p>
-              <p>Day Village</p>
+            <img src="assets/images/village.jpg" alt="Village" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="world-image-placeholder" style="display: none;">
+              <div class="emoji">🏘️</div>
+              <p>Village</p>
             </div>
           </div>
           <div class="world-info">
             <h4 class="world-name">Village of Whispers</h4>
             <p class="world-description">
-              In Light: Lanterns glow, children play, merchants trade. 
-              In Dark: Fog shrouds empty streets, only yokai remain to tell darker tales.
+              In light: lanterns glow, children play. In shadow: fog shrouds empty streets, only spirits remain to tell darker tales.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
-            <!-- Replace with actual screenshot -->
-            <img src="assets/images/forest-transition.jpg" alt="Forest">
-            <div style="padding: 2rem; text-align: center;">
-              <p style="font-size: 2rem;">🌲</p>
+            <img src="assets/images/forest.jpg" alt="Forest" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="world-image-placeholder" style="display: none;">
+              <div class="emoji">🌲</div>
               <p>Hollow Woods</p>
             </div>
           </div>
           <div class="world-info">
             <h4 class="world-name">The Hollow Woods</h4>
             <p class="world-description">
-              Cedar forests that shift between sun-dappled paths and shadow-twisted labyrinths 
-              based on your accumulated karma.
+              Cedar forests that shift between sun-dappled paths and shadow-twisted labyrinths based on your choices.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
-            <!-- Replace with actual screenshot -->
-            <img src="assets/images/river-souls.jpg" alt="River">
-            <div style="padding: 2rem; text-align: center;">
-              <p style="font-size: 2rem;">🌊</p>
+            <img src="assets/images/river.jpg" alt="River" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="world-image-placeholder" style="display: none;">
+              <div class="emoji">🌊</div>
               <p>Spirit River</p>
             </div>
           </div>
           <div class="world-info">
-            <h4 class="world-name">River of Remorse</h4>
+            <h4 class="world-name">River of Souls</h4>
             <p class="world-description">
-              Souls float as lotus flowers in light, or sink as will-o'-wisps in darkness. 
-              Your reflection shows different forms—each a tale of what you've become.
+              Souls float as light in mercy, sink as shadow in judgment. Your reflection shows what you've become.
             </p>
           </div>
         </div>
@@ -1260,84 +1455,85 @@
     <div class="container">
       <div class="section-header">
         <p class="section-label">Visual Journey</p>
-        <h2 class="section-title">Experience the Duality</h2>
+        <h2 class="section-title">Witness the Duality</h2>
         <p class="section-subtitle">
-          From serene temples to haunted shrines, witness a world shaped by the tales you choose
+          From serene temples to haunted shrines, a world shaped by the tales you choose
         </p>
       </div>
       
       <div class="gallery-grid">
         <div class="gallery-item">
-          <!-- Replace with actual screenshot -->
-          <img src="assets/images/screenshot1.jpg" alt="Yoru with glowing tails">
-          <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 2rem;">🐈‍⬛</p>
-            <p>Yoru's Glowing Tails</p>
+          <!-- PLACEHOLDER - Add your screenshots: screenshot1.jpg through screenshot6.jpg -->
+          <img src="assets/images/screenshot1.jpg" alt="Yoru Screenshot 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="gallery-placeholder" style="display: none;">
+            <div class="emoji">🐈‍⬛</div>
+            <p>Screenshot Placeholder</p>
+            <small>assets/images/screenshot1.jpg</small>
           </div>
           <div class="gallery-caption">
-            <h4>The Twin-Tail System</h4>
-            <p>Watch as rings ignite with each moral choice</p>
+            <h4>The Nekomata's Journey</h4>
+            <p>Two tails, two paths, one Eclipse</p>
           </div>
         </div>
         
         <div class="gallery-item">
-          <!-- Replace with actual screenshot -->
-          <img src="assets/images/screenshot2.jpg" alt="Oni Boss">
-          <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 2rem;">👹</p>
-            <p>First Boss: The Oni</p>
+          <img src="assets/images/screenshot2.jpg" alt="Yoru Screenshot 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="gallery-placeholder" style="display: none;">
+            <div class="emoji">👹</div>
+            <p>Screenshot Placeholder</p>
+            <small>assets/images/screenshot2.jpg</small>
           </div>
           <div class="gallery-caption">
-            <h4>The Oni's Tale</h4>
-            <p>Face rage incarnate—hear his story or end it</p>
+            <h4>Face the Yokai</h4>
+            <p>Each carries a tale from folklore</p>
           </div>
         </div>
         
         <div class="gallery-item">
-          <!-- Replace with actual screenshot -->
-          <img src="assets/images/screenshot3.jpg" alt="Choice UI">
-          <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 2rem;">⚖️</p>
-            <p>Moral Choice</p>
+          <img src="assets/images/screenshot3.jpg" alt="Yoru Screenshot 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="gallery-placeholder" style="display: none;">
+            <div class="emoji">⚖️</div>
+            <p>Screenshot Placeholder</p>
+            <small>assets/images/screenshot3.jpg</small>
           </div>
           <div class="gallery-caption">
-            <h4>The Choice Interface</h4>
-            <p>Every encounter offers purification or punishment</p>
+            <h4>The Moment of Choice</h4>
+            <p>Remember their innocence or end their tale</p>
           </div>
         </div>
         
         <div class="gallery-item">
-          <!-- Replace with actual screenshot -->
-          <img src="assets/images/screenshot4.jpg" alt="World Transformation">
-          <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 2rem;">🌅</p>
-            <p>World Shift</p>
+          <img src="assets/images/screenshot4.jpg" alt="Yoru Screenshot 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="gallery-placeholder" style="display: none;">
+            <div class="emoji">🌅</div>
+            <p>Screenshot Placeholder</p>
+            <small>assets/images/screenshot4.jpg</small>
           </div>
           <div class="gallery-caption">
-            <h4>Real-time Transformation</h4>
-            <p>Watch the world change with your karma</p>
+            <h4>A World Transformed</h4>
+            <p>Every choice reshapes the realm</p>
           </div>
         </div>
         
         <div class="gallery-item">
-          <!-- Replace with actual screenshot -->
-          <img src="assets/images/screenshot5.jpg" alt="Spirit Encounter">
-          <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 2rem;">👻</p>
-            <p>Lost Soul</p>
+          <img src="assets/images/screenshot5.jpg" alt="Yoru Screenshot 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="gallery-placeholder" style="display: none;">
+            <div class="emoji">👻</div>
+            <p>Screenshot Placeholder</p>
+            <small>assets/images/screenshot5.jpg</small>
           </div>
           <div class="gallery-caption">
-            <h4>Spirit Tales</h4>
-            <p>Each soul has a story, a regret, a choice</p>
+            <h4>Lost Souls</h4>
+            <p>Each has a story, a regret, a choice</p>
           </div>
         </div>
         
         <div class="gallery-item">
-          <!-- Replace with actual screenshot -->
-          <img src="assets/images/screenshot6.jpg" alt="Eclipse Beginning">
-          <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 2rem;">🌑</p>
-            <p>The Eclipse</p>
+          <img src="assets/images/screenshot6.jpg" alt="Yoru Screenshot 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="gallery-placeholder" style="display: none;">
+            <div class="emoji">🌑</div>
+            <p>Screenshot Placeholder</p>
+            <small>assets/images/screenshot6.jpg</small>
           </div>
           <div class="gallery-caption">
             <h4>The Eclipse Approaches</h4>
@@ -1353,7 +1549,7 @@
     <div class="trailer-container">
       <div class="section-header">
         <p class="section-label">Official Trailer</p>
-        <h2 class="section-title">Witness the Eclipse of Tails</h2>
+        <h2 class="section-title">Witness the Eclipse</h2>
         <p class="section-subtitle">
           Experience the duality of mercy and judgment. Every choice shapes both tails and tales.
         </p>
@@ -1363,7 +1559,7 @@
         <!-- Replace YOUR_VIDEO_ID with your actual YouTube video ID -->
         <iframe 
           src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
-          title="Yoru: Eclipse of Tails - Official Trailer"
+          title="Yoru: Eclipse of Two Tails - Official Trailer"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
           allowfullscreen>
         </iframe>
@@ -1371,8 +1567,59 @@
       
       <div style="text-align: center; margin-top: 3rem;">
         <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="btn-primary" style="font-size: 1.3rem; padding: 1.2rem 3rem;">
-          🎮 Add to Your Wishlist Now
+          🎮 Wishlist on Steam
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stay Updated Section (NEW!) -->
+  <section id="stay-updated" class="stay-updated-section">
+    <div class="stay-updated-container">
+      <h2 class="stay-updated-title">Walk the Path Between Light and Shadow</h2>
+      <p class="stay-updated-subtitle">
+        The Eclipse is forming. Yoru's tale unfolds.
+      </p>
+      
+      <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1.1rem;">
+        Join our newsletter to receive updates on:
+      </p>
+      
+      <ul class="stay-updated-list">
+        <li>🎮 Demo release announcements</li>
+        <li>🎨 Development insights and progress</li>
+        <li>📖 Japanese folklore inspirations</li>
+        <li>⚡ Steam launch updates</li>
+      </ul>
+      
+      <form class="newsletter-form" onsubmit="alert('Newsletter signup will be connected soon!'); return false;">
+        <input 
+          type="email" 
+          class="newsletter-input" 
+          placeholder="Enter your email" 
+          required
+        >
+        <button type="submit" class="newsletter-button">
+          Join the Eclipse
+        </button>
+      </form>
+      
+      <div class="social-follow">
+        <p class="social-follow-text">Or follow our journey:</p>
+        <div class="social-links-grid">
+          <a href="https://x.com/PectusG" target="_blank" class="social-link-button">
+            <span>🐦</span> Twitter
+          </a>
+          <a href="https://www.reddit.com/user/Visible_Signal_4084/" target="_blank" class="social-link-button">
+            <span>💬</span> Reddit
+          </a>
+          <a href="https://github.com/pectus-g" target="_blank" class="social-link-button">
+            <span>💻</span> GitHub
+          </a>
+          <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="social-link-button">
+            <span>🎮</span> Steam
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -1383,26 +1630,29 @@
       <div class="footer-text">
         © 2025 Pectus Studio<br>
         Solo Dev by Asena Hazal • Ottawa, Canada<br>
-        Unity 6 • Inspired by Authentic Japanese Folklore
+        Unity 6 • Inspired by Authentic Japanese Folklore<br>
+        <small style="color: rgba(255,255,255,0.3); display: block; margin-top: 0.5rem;">
+          There is a tale of a shrine, a family, and choices that echo across lifetimes...
+        </small>
       </div>
       
       <div class="social-links">
-        <a href="https://github.com/pectus-g" target="_blank" class="social-link">
+        <a href="https://github.com/pectus-g" target="_blank" class="social-link" title="GitHub">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
           </svg>
         </a>
-        <a href="https://x.com/PectusG" target="_blank" class="social-link">
+        <a href="https://x.com/PectusG" target="_blank" class="social-link" title="Twitter">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
           </svg>
         </a>
-        <a href="https://www.reddit.com/user/Visible_Signal_4084/" target="_blank" class="social-link">
+        <a href="https://www.reddit.com/user/Visible_Signal_4084/" target="_blank" class="social-link" title="Reddit">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
           </svg>
         </a>
-        <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="social-link">
+        <a href="https://steamcommunity.com/id/pectusgames/" target="_blank" class="social-link" title="Steam">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path d="M11.64 5.93h1.43v4.28h-1.43m3.93-4.28H17v4.28h-1.43M7 7.71v1.43h4.28V7.71m0 3.57v1.43h4.28v-1.43m0 3.93v1.43h4.28V13.5M0 19.64C0 21.75 1.61 23 3.72 23c2.11 0 3.93-1.25 3.93-3.36v-3.93H3.72C1.61 15.71 0 17.53 0 19.64z"/>
           </svg>
