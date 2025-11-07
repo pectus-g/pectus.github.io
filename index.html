@@ -645,9 +645,12 @@
     
     .world-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
       margin-top: 3rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     .world-state {
@@ -665,7 +668,7 @@
     
     .world-image {
       width: 100%;
-      height: 200px;
+      height: 250px;
       background: rgba(255, 255, 255, 0.02);
       display: flex;
       align-items: center;
@@ -690,19 +693,19 @@
     }
     
     .world-info {
-      padding: 1.5rem;
+      padding: 2rem;
     }
     
     .world-name {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
       font-weight: bold;
     }
     
     .world-description {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.95rem;
-      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      line-height: 1.7;
     }
     
     /* Gallery Section */
@@ -1353,9 +1356,9 @@
     <div class="container">
       <div class="section-header">
         <p class="section-label">Dynamic World</p>
-        <h2 class="section-title">A Realm That Breathes With Your Choices</h2>
+        <h2 class="section-title">Where Choices Become Power</h2>
         <p class="section-subtitle">
-          This realm breathes with your choices. Walk the path of forgiveness, and autumn trees burn crimson under clear skies. 
+          This realm breathes with your choices. Walk the path of forgiveness, and the world blooms. 
           Choose punishment, and twilight descends—the same beauty remains, but the air grows heavy with spirits watching from shadows.
         </p>
       </div>
@@ -1363,39 +1366,41 @@
       <div class="world-grid">
         <div class="world-state">
           <div class="world-image">
-            <!-- PLACEHOLDER - Add your screenshots later -->
-            <img src="assets/images/shrine-light.jpg" alt="Light Shrine" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <!-- Your crimson tree / light world screenshot -->
+            <img src="assets/images/light-world.jpg" alt="Path of Light" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <div class="world-image-placeholder" style="display: none;">
-              <div class="emoji">⛩️</div>
-              <p>Blessed Shrine</p>
+              <div class="emoji">☀️</div>
+              <p>Light World</p>
             </div>
           </div>
           <div class="world-info">
             <h4 class="world-name">Path of Light</h4>
             <p class="world-description">
-              Golden lanterns glow at shrines, autumn leaves drift endlessly, waterfalls sing—the world feels warm and alive.
+              Walk the path of forgiveness, and the world blooms. Autumn trees burn crimson under clear skies, waterfalls sing, the air feels warm and alive. Each soul you persuade strengthens your right tail—granting you deeper understanding, words that heal, and the ability to see beyond the monster.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
-            <img src="assets/images/shrine-dark.jpg" alt="Dark Shrine" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <!-- Your twilight / dark world screenshot -->
+            <img src="assets/images/dark-world.jpg" alt="Path of Shadow" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <div class="world-image-placeholder" style="display: none;">
-              <div class="emoji">🌑</div>
-              <p>Shadowed Shrine</p>
+              <div class="emoji">🌙</div>
+              <p>Dark World</p>
             </div>
           </div>
           <div class="world-info">
             <h4 class="world-name">Path of Shadow</h4>
             <p class="world-description">
-              Eternal twilight bathes broken torii gates, spirit whispers echo, waters glow with ghostly light—beautiful yet eerie.
+              Choose punishment, and twilight descends. The same beauty remains—spirit lanterns glow, waters shimmer—but the air grows heavy. Whispers echo. Spirits watch from shadows. Each soul you end strengthens your left tail—granting you flame, speed, and the power to face what cannot be reasoned with.
             </p>
           </div>
         </div>
         
         <div class="world-state">
           <div class="world-image">
+            <!-- Eclipse Tree screenshot -->
             <img src="assets/images/eclipse-tree.jpg" alt="Eclipse Tree" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <div class="world-image-placeholder" style="display: none;">
               <div class="emoji">🌳</div>
@@ -1405,55 +1410,7 @@
           <div class="world-info">
             <h4 class="world-name">The Eclipse Tree</h4>
             <p class="world-description">
-              A massive tree beside a forgotten shrine. When the Eclipse nears, it reveals visions of those who came before.
-            </p>
-          </div>
-        </div>
-        
-        <div class="world-state">
-          <div class="world-image">
-            <img src="assets/images/village.jpg" alt="Village" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div class="world-image-placeholder" style="display: none;">
-              <div class="emoji">🏘️</div>
-              <p>Village</p>
-            </div>
-          </div>
-          <div class="world-info">
-            <h4 class="world-name">Village of Whispers</h4>
-            <p class="world-description">
-              In light: lanterns glow, children play. In shadow: fog shrouds empty streets, only spirits remain to tell darker tales.
-            </p>
-          </div>
-        </div>
-        
-        <div class="world-state">
-          <div class="world-image">
-            <img src="assets/images/forest.jpg" alt="Forest" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div class="world-image-placeholder" style="display: none;">
-              <div class="emoji">🌲</div>
-              <p>Hollow Woods</p>
-            </div>
-          </div>
-          <div class="world-info">
-            <h4 class="world-name">The Hollow Woods</h4>
-            <p class="world-description">
-              Cedar forests that shift between sun-dappled paths and shadow-twisted labyrinths based on your choices.
-            </p>
-          </div>
-        </div>
-        
-        <div class="world-state">
-          <div class="world-image">
-            <img src="assets/images/river.jpg" alt="River" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div class="world-image-placeholder" style="display: none;">
-              <div class="emoji">🌊</div>
-              <p>Spirit River</p>
-            </div>
-          </div>
-          <div class="world-info">
-            <h4 class="world-name">River of Souls</h4>
-            <p class="world-description">
-              Souls float as light in mercy, sink as shadow in judgment. Your reflection shows what you've become.
+              After each yokai falls—whether through mercy or judgment—you must bring their soul to this ancient tree. Here, beneath its branches, your choice becomes power: A ring ignites on your tail. An ability awakens within you. Persuade a soul, and your right tail glows with wisdom. Punish a soul, and your left tail burns with strength. When you find the balance both tails hold five souls each, the Eclipse forms—and the tree reveals what you truly are.
             </p>
           </div>
         </div>
