@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yoru: Eclipse of Tails</title>
-  <meta name="description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a cat who used to be a grandmother.">
+  <meta name="description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a Nekomata who used to be a grandmother.">
   <meta property="og:title" content="Yoru: Eclipse of Tails">
-  <meta property="og:description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a cat who used to be a grandmother.">
+  <meta property="og:description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a Nekomata who used to be a grandmother.">
   <meta property="og:type" content="website">
   
   <style>
@@ -328,6 +328,28 @@
     }
     .social-link:hover { color: #a855f7; transform: translateY(-3px); }
 
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.95); z-index: 9999;
+      align-items: center; justify-content: center; cursor: pointer;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 92vw; max-height: 90vh; object-fit: contain;
+      border-radius: 0.5rem; box-shadow: 0 0 60px rgba(168, 85, 247, 0.3);
+    }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      color: white; font-size: 2.5rem; cursor: pointer;
+      opacity: 0.7; transition: opacity 0.2s; background: none; border: none;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-caption {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.7); font-size: 1rem; text-align: center;
+    }
+
     /* ── Mobile ── */
     @media (max-width: 768px) {
       .nav-menu { display: none; }
@@ -383,7 +405,7 @@
       <h1>Yoru</h1>
       <h2 style="font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 700; margin-bottom: 1.5rem; background: linear-gradient(135deg, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 0.05em;">Eclipse of Tails</h2>
       <p class="hero-description">
-        A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a cat who used to be a grandmother. An old woman named Tomoe and her granddaughter's cat Pera died together during an eclipse. In purgatory, they woke up as one being: Yoru, a two-tailed Nekomata with no memory of who she was. Ten yōkai bosses from real Japanese folklore are trapped here. You decide what happens to each one.
+        A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a Nekomata who used to be a grandmother. An old woman named Tomoe and her granddaughter's cat Pera died together during an eclipse. In purgatory, they woke up as one being: Yoru, a two-tailed Nekomata with no memory of who she was. Ten yōkai bosses from real Japanese folklore are trapped here. You decide what happens to each one.
       </p>
       <div class="hero-buttons">
         <a href="#hook" class="btn-primary">Discover the Tale</a>
@@ -413,7 +435,7 @@
           <div class="hook-icon">🐈</div>
           <h3 class="hook-card-title">Two People in One Body</h3>
           <p class="hook-card-text">
-            Yoru is two souls. Tomoe was a grandmother who lost her family in an earthquake and never recovered. Pera was her granddaughter's cat. They died together during an eclipse and woke up as one spirit in purgatory. Switch between them freely. Tomoe reads emotions, sees the grief behind the rage. Pera fights on instinct, fast and sharp.
+            Yoru is two souls. Tomoe was a grandmother who lost her family in an earthquake and never recovered. Pera was her granddaughter's cat. They died together during an eclipse and woke up as one spirit in purgatory. Switch between them freely. Tomoe reads emotions, sees the grief behind the rage. The Nekomata form fights on instinct, fast and sharp.
           </p>
         </div>
         
@@ -439,7 +461,7 @@
     <div class="container">
       <div class="section-header">
         <p class="section-label">Your Choice</p>
-        <h2 class="section-title">Help Them Find the Light or Drag Them Through Darkness</h2>
+        <h2 class="section-title" style="font-size: 2.2rem;">Help Them Find the Light or Drag Them Through Darkness</h2>
         <p class="section-subtitle">
           Every boss is a spirit trapped by their own sin. You can help them understand what's holding them here and guide their soul to peace. Or you can punish them for what they became. Both free the soul. Only one lets you hear who they were before.
         </p>
@@ -454,7 +476,7 @@
           <div class="path-body">
             <h3 class="path-title dark">Torment</h3>
             <p class="path-text">
-              They sinned. They suffered. And now they'll answer for it. Fight them as Yoru the cat spirit, dodge their attacks, break through their defences, and force them to release. Each punished soul drops a dark ring on your left tail. The world around you darkens: fog thickens, spirit lanterns ignite, whispers follow you. Your combat abilities grow. You can even summon the spirits you've punished through necromancy, calling them back to serve you. They deserved it, right?
+              They sinned. They suffered. And now they'll answer for it. Face them as Yoru the Nekomata spirit and force them to release through combat. Each punished soul drops a dark ring on your left tail. The world around you darkens: fog thickens, spirit lanterns ignite, whispers follow you. Your combat abilities grow. You can even summon the spirits you've punished through necromancy, calling them back to serve you. They deserved it, right?
             </p>
           </div>
         </div>
@@ -467,7 +489,7 @@
           <div class="path-body">
             <h3 class="path-title light">Mercy</h3>
             <p class="path-text">
-              Transform into Tomoe, the grandmother. In her form, you can see emotional auras the cat can't, the pain and regret radiating off the spirit. Enter the Echo Walk: step into their memories, piece together what happened to them, understand the sin that trapped them here. Get it right and they find peace. Their soul rises, a glowing ring appears on your right tail, and the world opens up around you. Fog lifts, moonlight breaks through, colours deepen. You heard their story. You helped them let go.
+              Transform into Tomoe, the grandmother. In her form, you can see emotional auras the Nekomata can't, the pain and regret radiating off the spirit. Enter the Echo Walk: step into their memories, piece together what happened to them, understand the sin that trapped them here. Get it right and they find peace. Their soul rises, a glowing ring appears on your right tail, and the world opens up around you. Fog lifts, moonlight breaks through, colours deepen. You heard their story. You helped them let go.
             </p>
           </div>
         </div>
@@ -510,7 +532,7 @@
       </div>
 
       <div class="gallery-grid">
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot1.png" alt="Yoru exploring a blooming meadow">
           <div class="gallery-caption">
             <h4>Exploration, Light Path</h4>
@@ -518,15 +540,15 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot-tomoe.png" alt="Tomoe, the grandmother form">
           <div class="gallery-caption">
             <h4>Tomoe, the Grandmother</h4>
-            <p>Transform into the old woman Yoru used to be. She sees what the cat cannot.</p>
+            <p>Transform into the old woman Yoru used to be. She sees what the Nekomata cannot.</p>
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot-combat.png" alt="Yoru fighting the Nopperabo near a Tori Gate">
           <div class="gallery-caption">
             <h4>Combat</h4>
@@ -534,7 +556,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot-nopperabo.png" alt="The Nopperabo, a faceless spirit by the river">
           <div class="gallery-caption">
             <h4>A Lost Spirit</h4>
@@ -542,7 +564,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot3.png" alt="Yoru sitting by a glowing lake at night">
           <div class="gallery-caption">
             <h4>A Quiet Moment</h4>
@@ -550,23 +572,23 @@
           </div>
         </div>
 
-        <div class="gallery-item">
-          <img src="assets/images/screenshot-yoru-closeup.png" alt="Yoru cat spirit close up near a shrine">
+        <div class="gallery-item" onclick="openLightbox(this)">
+          <img src="assets/images/screenshot2.png" alt="Yoru running through twilight with glowing rings">
           <div class="gallery-caption">
-            <h4>Yoru</h4>
-            <p>Two tailed, red collar, glowing eyes. Part cat, part grandmother, all spirit.</p>
+            <h4>Twilight Run</h4>
+            <p>Yoru on the move. Red rings burning, eclipse crescent overhead.</p>
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot-exploration.png" alt="Yoru and the Nopperabo in the world">
           <div class="gallery-caption">
             <h4>Two Worlds Collide</h4>
-            <p>A stone lantern, a cat spirit, and a faceless yōkai. Purgatory in one frame.</p>
+            <p>A stone lantern, a Nekomata spirit, and a faceless yōkai. Purgatory in one frame.</p>
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot4.png" alt="Yoru in deep shadow with burning tail">
           <div class="gallery-caption">
             <h4>Deep Into the Dark Path</h4>
@@ -574,7 +596,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox(this)">
           <img src="assets/images/screenshot5.png" alt="Yoru under the Eclipse with both tails lit">
           <div class="gallery-caption">
             <h4>The Eclipse</h4>
@@ -637,6 +659,31 @@
       </div>
     </div>
   </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+
+  <script>
+    function openLightbox(el) {
+      const img = el.querySelector('img');
+      const caption = el.querySelector('.gallery-caption h4');
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-caption').textContent = caption ? caption.textContent : '';
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 
   <script>
     // Particle System
