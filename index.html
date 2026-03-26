@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yoru: Eclipse of Tails</title>
-  <meta name="description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory — as a cat who used to be a grandmother.">
+  <meta name="description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a cat who used to be a grandmother.">
   <meta property="og:title" content="Yoru: Eclipse of Tails">
-  <meta property="og:description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory — as a cat who used to be a grandmother.">
+  <meta property="og:description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a cat who used to be a grandmother.">
   <meta property="og:type" content="website">
   
   <style>
@@ -154,6 +154,40 @@
       font-size: 1.15rem; color: rgba(255, 255, 255, 0.7);
       max-width: 800px; margin: 0 auto; line-height: 1.8;
     }
+
+    /* ── Hook Section ── */
+    .hook-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.04), transparent);
+    }
+    .hook-container { max-width: 1100px; margin: 0 auto; text-align: center; }
+    .hook-title {
+      font-size: 2.8rem; margin-bottom: 2rem;
+      background: linear-gradient(135deg, #ec4899, #a855f7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      font-weight: 800; line-height: 1.2;
+    }
+    .hook-prose {
+      font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); line-height: 1.8;
+      max-width: 850px; margin: 0 auto 3rem;
+    }
+    .hook-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    .hook-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem; padding: 2rem; text-align: left;
+      transition: all 0.3s;
+    }
+    .hook-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+    .hook-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .hook-card-title { font-size: 1.3rem; margin-bottom: 0.75rem; color: #a855f7; font-weight: bold; }
+    .hook-card-text { color: rgba(255, 255, 255, 0.75); line-height: 1.6; font-size: 1rem; }
 
     /* ── Two Paths Section ── */
     .paths-section { padding: 6rem 2rem; }
@@ -322,6 +356,7 @@
         <span class="logo-text">Yoru</span>
       </a>
       <ul class="nav-menu">
+        <li><a href="#hook">The Story</a></li>
         <li><a href="#paths">Two Paths</a></li>
         <li><a href="#world">The World</a></li>
         <li><a href="#gallery">Gallery</a></li>
@@ -346,12 +381,55 @@
 
     <div class="hero-content">
       <h1>Yoru</h1>
-      <p class="hero-subtitle">Eclipse of Tails</p>
+      <h2 style="font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 700; margin-bottom: 1.5rem; background: linear-gradient(135deg, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 0.05em;">Eclipse of Tails</h2>
       <p class="hero-description">
-        A narrative action-adventure about judging lost spirits in a Japanese purgatory — as a cat who used to be a grandmother. An old woman named Tomoe and her granddaughter's cat died together during an eclipse. In purgatory, they woke up as one being: Yoru, a two-tailed Nekomata with no memory of who she was. Ten yōkai bosses from real Japanese folklore are trapped here. You decide what happens to each one.
+        A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a cat who used to be a grandmother. An old woman named Tomoe and her granddaughter's cat Pera died together during an eclipse. In purgatory, they woke up as one being: Yoru, a two-tailed Nekomata with no memory of who she was. Ten yōkai bosses from real Japanese folklore are trapped here. You decide what happens to each one.
       </p>
       <div class="hero-buttons">
-        <a href="#paths" class="btn-primary">See How It Works</a>
+        <a href="#hook" class="btn-primary">Discover the Tale</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HOOK ═══ -->
+  <section id="hook" class="hook-section">
+    <div class="hook-container">
+      <h2 class="hook-title">Echoing Tales Between Worlds</h2>
+      
+      <p class="hook-prose">
+        You'll meet ten yōkai across the game. Oni, Kitsune, Yuki-Onna, Gashadokuro, and others pulled from real Japanese legends. Every one of them used to be a person. Each carries a Kegare, a spiritual pollution, the specific attachment that keeps their soul trapped in purgatory. Your job is to free them, one way or another.
+      </p>
+
+      <div class="hook-cards">
+        <div class="hook-card">
+          <div class="hook-icon">👹</div>
+          <h3 class="hook-card-title">What Makes a Monster?</h3>
+          <p class="hook-card-text">
+            The Oni didn't start angry. Betrayal did that. The Kitsune's trickery comes from centuries of loneliness. Every boss is rooted in actual Japanese folklore, and every one of them has a reason they ended up here. You'll learn those reasons whether you want to or not.
+          </p>
+        </div>
+        
+        <div class="hook-card">
+          <div class="hook-icon">⚖️</div>
+          <h3 class="hook-card-title">Two Souls, One Body</h3>
+          <p class="hook-card-text">
+            Yoru isn't one person. Tomoe the grandmother sees emotional auras, reads the grief behind the rage. Pera the cat fights on instinct, fast and aggressive. Switch between them freely. The old woman's wisdom and the cat's power are both yours.
+          </p>
+        </div>
+        
+        <div class="hook-card">
+          <div class="hook-icon">🌑</div>
+          <h3 class="hook-card-title">The Eclipse Awaits</h3>
+          <p class="hook-card-text">
+            Fill both tails, five rings on each, and the Eclipse triggers. It opens a hidden chapter that recontextualizes everything you've done. Seven endings total. The one you get depends on the exact balance you carried. You can't game it. You have to play it honestly.
+          </p>
+        </div>
+      </div>
+
+      <div style="max-width: 800px; margin: 3rem auto 0; text-align: center;">
+        <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.85); line-height: 1.8;">
+          Yoru remembers nothing at the start. Each boss you free returns one piece of who Tomoe was. Ten bosses, ten memories. By the final encounter, you know the whole story.
+        </p>
       </div>
     </div>
   </section>
@@ -363,7 +441,7 @@
         <p class="section-label">Your Choice</p>
         <h2 class="section-title">Fight Them or Understand Them</h2>
         <p class="section-subtitle">
-          Every boss encounter starts the same way: a spirit in pain, a story you don't know yet. What you do next is up to you. Combat breaks the attachment keeping them trapped. Persuasion untangles it. Both free the soul — but only one reveals the full story of who they were.
+          Every boss encounter starts the same way: a spirit in pain, a story you don't know yet. What you do next is up to you. Combat breaks the attachment keeping them trapped. Persuasion untangles it. Both free the soul, but only one reveals the full story of who they were.
         </p>
       </div>
 
@@ -376,7 +454,7 @@
           <div class="path-body">
             <h3 class="path-title dark">Combat</h3>
             <p class="path-text">
-              Fight yōkai head-on as Yoru the cat spirit. Dodge, parry, combo. Each defeated boss drops a dark soul — a burning ring on your left tail. The world darkens around you: fog rolls in, spirit lanterns ignite, the air gets heavy. Your left tail grows stronger. You can summon the spirits of enemies you've killed through necromancy — Nekomata in Japanese folklore have always had that power. Faster, more aggressive, but you'll never hear the boss's full story.
+              Fight yōkai head-on as Yoru the cat spirit. Dodge, parry, combo. Each defeated boss drops a dark soul, a burning ring on your left tail. The world darkens around you: fog rolls in, spirit lanterns ignite, the air gets heavy. Your left tail grows stronger. You can summon the spirits you've killed through necromancy, because Nekomata in Japanese folklore have always had that power. Faster, more aggressive, but you'll never hear the boss's full story.
             </p>
           </div>
         </div>
@@ -389,7 +467,7 @@
           <div class="path-body">
             <h3 class="path-title light">Echo Walk</h3>
             <p class="path-text">
-              Transform into Tomoe — the old woman Yoru used to be. In human form, you can see emotional auras that the cat can't. Approach the boss and enter the Echo Walk: you physically walk through their floating memories in the arena, piecing together what happened to them in the right emotional order. Get it wrong three times and you'll have to fight. Get it right, and the boss finds peace. A glowing ring on your right tail. The world warms — fog lifts, moonlight breaks through, autumn colours deepen.
+              Transform into Tomoe, the old woman Yoru used to be. In human form, you can see emotional auras that the cat can't. Approach the boss and enter the Echo Walk: you physically walk through their floating memories in the arena, piecing together what happened to them in the right emotional order. Get it wrong three times and you'll have to fight. Get it right, and the boss finds peace. A glowing ring on your right tail. The world warms, fog lifts, moonlight breaks through, autumn colours deepen.
             </p>
           </div>
         </div>
@@ -398,7 +476,7 @@
       <!-- Single line about the Eclipse -->
       <div style="text-align: center; margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
         <p style="font-size: 1.15rem; color: rgba(255,255,255,0.7); line-height: 1.8;">
-          Ten bosses. Ten rings across two tails. Every ring you earn is visible on Yoru's body — every spirit in purgatory can see what kind of judge you've been. Fill both tails to five and the Eclipse triggers: a hidden final chapter with seven possible endings, each one shaped by the exact balance you carried.
+          Ten bosses. Ten rings across two tails. Every ring you earn is visible on Yoru's body, and every spirit in purgatory can see what kind of judge you've been. Fill both tails to five and the Eclipse triggers: a hidden final chapter with seven possible endings, each one shaped by the exact balance you carried.
         </p>
       </div>
     </div>
@@ -411,15 +489,15 @@
         <p class="section-label">A World That Watches</p>
         <h2 class="section-title">The Sky Tells You Who You've Been</h2>
         <p class="section-subtitle">
-          There's no morality bar. The world itself tracks your choices across twenty-nine atmospheric states — time of day, weather, fog density, lighting, even how spirits react when they see you. Lean dark and twilight descends. Lean light and the world opens up. You don't need a UI element to know where you stand. Just look around.
+          There's no morality bar. The world itself tracks your choices across twenty-nine atmospheric states: time of day, weather, fog density, lighting, even how spirits react when they see you. Lean dark and twilight descends. Lean light and the world opens up. You don't need a UI element to know where you stand. Just look around.
         </p>
       </div>
 
       <div class="world-compare">
-        <img src="assets/images/light-world.png" alt="Light path — warm, open, blooming">
-        <img src="assets/images/dark-world.png" alt="Dark path — fog, spirit lanterns, twilight">
+        <img src="assets/images/light-world.png" alt="Light path, warm and blooming">
+        <img src="assets/images/dark-world.png" alt="Dark path, fog and spirit lanterns">
       </div>
-      <p class="world-caption">The same world, transformed by your choices — light path (left) vs. dark path (right)</p>
+      <p class="world-caption">The same world, transformed by your choices. Light path (left) vs. dark path (right)</p>
     </div>
   </section>
 
@@ -435,7 +513,7 @@
         <div class="gallery-item">
           <img src="assets/images/screenshot1.png" alt="Yoru exploring a blooming meadow">
           <div class="gallery-caption">
-            <h4>Exploration — Light Path</h4>
+            <h4>Exploration, Light Path</h4>
             <p>Flowers, waterfalls, warm light. The world responds to mercy.</p>
           </div>
         </div>
@@ -452,7 +530,7 @@
           <img src="assets/images/screenshot4.png" alt="Yoru in deep shadow with burning tail">
           <div class="gallery-caption">
             <h4>Deep Into the Dark Path</h4>
-            <p>Spirit lanterns and burning rings. The world is still beautiful — just eerie.</p>
+            <p>Spirit lanterns and burning rings. Beautiful, but eerie.</p>
           </div>
         </div>
 
@@ -461,6 +539,51 @@
           <div class="gallery-caption">
             <h4>The Eclipse</h4>
             <p>Both tails full. The final chapter begins.</p>
+          </div>
+        </div>
+
+        <!-- NEW SLOT 5: Tomoe (granny) form -->
+        <div class="gallery-item">
+          <img src="assets/images/screenshot-tomoe.png" alt="Yoru in Tomoe human form" onerror="this.parentElement.style.display='none';">
+          <div class="gallery-caption">
+            <h4>Tomoe, the Grandmother</h4>
+            <p>Transform into the old woman Yoru used to be. She sees what the cat cannot.</p>
+          </div>
+        </div>
+
+        <!-- NEW SLOT 6: Combat / enemy encounter -->
+        <div class="gallery-item">
+          <img src="assets/images/screenshot-combat.png" alt="Yoru fighting a yokai" onerror="this.parentElement.style.display='none';">
+          <div class="gallery-caption">
+            <h4>Facing a Yōkai</h4>
+            <p>Every enemy was a person once. Some are too far gone to reason with.</p>
+          </div>
+        </div>
+
+        <!-- NEW SLOT 7: New dark path replacement -->
+        <div class="gallery-item">
+          <img src="assets/images/screenshot-dark2.png" alt="Dark atmosphere, deep shadow path" onerror="this.parentElement.style.display='none';">
+          <div class="gallery-caption">
+            <h4>Path of Shadow</h4>
+            <p>Twilight. Dense fog. The weight of every soul you've ended.</p>
+          </div>
+        </div>
+
+        <!-- NEW SLOT 8: Ancient Tree or world landmark -->
+        <div class="gallery-item">
+          <img src="assets/images/screenshot-tree.png" alt="The Ancient Tree" onerror="this.parentElement.style.display='none';">
+          <div class="gallery-caption">
+            <h4>The Ancient Tree</h4>
+            <p>Bring souls here. Receive rings. Remember who you were.</p>
+          </div>
+        </div>
+
+        <!-- NEW SLOT 9: Additional screenshot -->
+        <div class="gallery-item">
+          <img src="assets/images/screenshot-extra.png" alt="Exploring purgatory" onerror="this.parentElement.style.display='none';">
+          <div class="gallery-caption">
+            <h4>Purgatory</h4>
+            <p>A Japanese landscape suspended between life and death.</p>
           </div>
         </div>
       </div>
@@ -472,7 +595,7 @@
     <div class="stay-updated-container">
       <h2 class="stay-updated-title">Stay Updated</h2>
       <p class="stay-updated-subtitle">
-        YORU: Eclipse of Tails is in active development by Pectus Games — a solo indie studio in Ontario, Canada. Built in Unity 6. Targeting Q4 2027. Sign up for news on the Steam page launch, demo, and release.
+        YORU: Eclipse of Tails is in active development by Pectus Games, a solo indie studio in Ontario, Canada. Built in Unity 6. Targeting Q1 2028. Sign up for news on the Steam page launch, demo, and release.
       </p>
 
       <form class="newsletter-form" onsubmit="alert('Newsletter signup will be connected soon!'); return false;">
