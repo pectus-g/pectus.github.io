@@ -1,745 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yoru: Eclipse of Tails</title>
-  <meta name="description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a Nekomata who used to be a grandmother.">
-  <meta property="og:title" content="Yoru: Eclipse of Tails">
-  <meta property="og:description" content="A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a Nekomata who used to be a grandmother.">
-  <meta property="og:type" content="website">
-  
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: #0a0a0f;
-      color: #ffffff;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    /* ── Nav ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(10, 10, 15, 0.95);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1rem 2rem;
-    }
-    .nav-container {
-      max-width: 1400px; margin: 0 auto;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .logo {
-      display: flex; align-items: center; gap: 1rem;
-      text-decoration: none; transition: transform 0.3s;
-    }
-    .logo:hover { transform: scale(1.05); }
-    .logo-icon {
-      width: 45px; height: 45px;
-      background: linear-gradient(135deg, #a855f7, #3b82f6);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 24px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); overflow: hidden;
-    }
-    .logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-    .logo-text {
-      font-size: 1.3rem; font-weight: bold;
-      background: linear-gradient(135deg, #a855f7, #3b82f6);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .nav-menu { display: flex; gap: 2rem; align-items: center; list-style: none; }
-    .nav-menu a {
-      color: #ffffff; text-decoration: none; position: relative;
-      transition: color 0.3s; font-size: 0.95rem;
-    }
-    .nav-menu a:hover { color: #a855f7; }
-    .nav-menu a::after {
-      content: ''; position: absolute; bottom: -5px; left: 0;
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, #a855f7, #3b82f6);
-      transition: width 0.3s;
-    }
-    .nav-menu a:hover::after { width: 100%; }
-    .nav-badge {
-      padding: 0.6rem 1.4rem; border-radius: 0.75rem;
-      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; font-weight: 500;
-    }
-
-    /* ── Hero ── */
-    .hero {
-      min-height: 100vh; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; padding-top: 80px;
-    }
-    .hero-video-bg {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; overflow: hidden;
-    }
-    .hero-video-bg video {
-      position: absolute; top: 50%; left: 50%;
-      min-width: 100%; min-height: 100%; width: auto; height: auto;
-      transform: translate(-50%, -50%); object-fit: cover; opacity: 0.4;
-    }
-    .hero-video-overlay {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at center, transparent 0%, rgba(10, 10, 15, 0.8) 100%);
-      z-index: 2;
-    }
-    .hero-bg {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
-    }
-    .gradient-orb {
-      position: absolute; border-radius: 50%; filter: blur(100px);
-      opacity: 0.4; animation: float 25s infinite ease-in-out;
-    }
-    .orb-1 { width: 700px; height: 700px; background: linear-gradient(135deg, #a855f7, #7c3aed); top: -200px; left: -200px; }
-    .orb-2 { width: 600px; height: 600px; background: linear-gradient(135deg, #3b82f6, #2563eb); bottom: -200px; right: -200px; animation-delay: 8s; }
-    .orb-3 { width: 500px; height: 500px; background: linear-gradient(135deg, #ec4899, #db2777); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 15s; }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(40px, -40px) scale(1.1); }
-      66% { transform: translate(-30px, 30px) scale(0.95); }
-    }
-    .hero-content {
-      position: relative; z-index: 10; text-align: center;
-      padding: 2rem; max-width: 1000px;
-    }
-    .hero h1 {
-      font-size: clamp(3.5rem, 8vw, 7.5rem); font-weight: 900; margin-bottom: 0;
-      background: linear-gradient(135deg, #a855f7, #ec4899, #3b82f6);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      animation: gradientShift 8s ease infinite; background-size: 200% 200%;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .hero-subtitle {
-      font-size: 1.8rem; color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 1.5rem; font-weight: 300;
-    }
-    .hero-description {
-      font-size: 1.2rem; color: rgba(255, 255, 255, 0.75);
-      margin-bottom: 2.5rem; line-height: 1.8;
-      max-width: 800px; margin-left: auto; margin-right: auto;
-    }
-    .hero-buttons { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      background: linear-gradient(135deg, #a855f7, #3b82f6);
-      padding: 1rem 2.5rem; border-radius: 0.75rem; color: white;
-      text-decoration: none; font-weight: bold; font-size: 1.1rem;
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      transition: all 0.3s; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
-    }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(168, 85, 247, 0.4); }
-
-    /* ── Shared Section Styles ── */
-    .container { max-width: 1200px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 3rem; }
-    .section-label {
-      font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.2em;
-      color: #a855f7; margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-size: 3rem; margin-bottom: 1rem;
-      background: linear-gradient(135deg, #a855f7, #3b82f6);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      font-weight: 800;
-    }
-    .section-subtitle {
-      font-size: 1.15rem; color: rgba(255, 255, 255, 0.7);
-      max-width: 800px; margin: 0 auto; line-height: 1.8;
-    }
-
-    /* ── Hook Section ── */
-    .hook-section {
-      padding: 6rem 2rem;
-      background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.04), transparent);
-    }
-    .hook-container { max-width: 1100px; margin: 0 auto; text-align: center; }
-    .hook-title {
-      font-size: 2.8rem; margin-bottom: 2rem;
-      background: linear-gradient(135deg, #ec4899, #a855f7);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      font-weight: 800; line-height: 1.2;
-    }
-    .hook-prose {
-      font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); line-height: 1.8;
-      max-width: 850px; margin: 0 auto 3rem;
-    }
-    .hook-cards {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem; margin-top: 2rem;
-    }
-    .hook-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1rem; padding: 2rem; text-align: left;
-      transition: all 0.3s;
-    }
-    .hook-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(168, 85, 247, 0.3);
-    }
-    .hook-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
-    .hook-card-title { font-size: 1.3rem; margin-bottom: 0.75rem; color: #a855f7; font-weight: bold; }
-    .hook-card-text { color: rgba(255, 255, 255, 0.75); line-height: 1.6; font-size: 1rem; }
-
-    /* ── Two Paths Section ── */
-    .paths-section { padding: 6rem 2rem; }
-    .paths-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-      gap: 2.5rem; margin-top: 2rem;
-    }
-    .path-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1.5rem; overflow: hidden; transition: all 0.3s;
-    }
-    .path-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(168, 85, 247, 0.15);
-    }
-    .path-image {
-      width: 100%; height: 280px; overflow: hidden;
-    }
-    .path-image img { width: 100%; height: 100%; object-fit: cover; }
-    .path-body { padding: 2rem; }
-    .path-title {
-      font-size: 1.6rem; margin-bottom: 1rem; font-weight: bold;
-    }
-    .path-title.light { color: #60a5fa; }
-    .path-title.dark { color: #f472b6; }
-    .path-text {
-      color: rgba(255, 255, 255, 0.8); font-size: 1.05rem; line-height: 1.7;
-    }
-
-    /* ── World Section ── */
-    .world-section { padding: 6rem 2rem; }
-    .world-compare {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1rem; margin-top: 2rem; border-radius: 1rem; overflow: hidden;
-    }
-    .world-compare img {
-      width: 100%; height: 350px; object-fit: cover;
-      transition: transform 0.3s;
-    }
-    .world-compare img:hover { transform: scale(1.02); }
-    .world-caption {
-      text-align: center; margin-top: 1.5rem;
-      color: rgba(255, 255, 255, 0.5); font-size: 0.95rem;
-    }
-
-    /* ── Gallery ── */
-    .gallery-section { padding: 6rem 2rem; }
-    .gallery-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem; margin-top: 2rem;
-    }
-    .gallery-item {
-      overflow: hidden; aspect-ratio: 1 / 1;
-      position: relative; cursor: pointer; transition: all 0.3s;
-    }
-    .gallery-item:hover {
-      transform: scale(1.02);
-      z-index: 2;
-      box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);
-    }
-    .gallery-item img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.3s;
-    }
-    .gallery-item:hover img { transform: scale(1.05); }
-    .gallery-caption {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-      padding: 1.2rem; transform: translateY(100%); transition: transform 0.3s;
-    }
-    .gallery-item:hover .gallery-caption { transform: translateY(0); }
-
-    /* ── Stay Updated ── */
-    .stay-updated-section { padding: 6rem 2rem; }
-    .stay-updated-container { max-width: 700px; margin: 0 auto; text-align: center; }
-    .stay-updated-title {
-      font-size: 2.5rem; margin-bottom: 1rem;
-      background: linear-gradient(135deg, #a855f7, #ec4899);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      font-weight: 800;
-    }
-    .stay-updated-subtitle {
-      font-size: 1.1rem; color: rgba(255, 255, 255, 0.6);
-      margin-bottom: 2.5rem; line-height: 1.7;
-    }
-    .newsletter-form {
-      display: flex; gap: 1rem; justify-content: center;
-      margin-bottom: 2.5rem; flex-wrap: wrap;
-    }
-    .newsletter-input {
-      padding: 1rem 1.5rem; border-radius: 0.75rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.05); color: white;
-      font-size: 1rem; min-width: 300px; transition: all 0.3s;
-    }
-    .newsletter-input:focus {
-      outline: none; border-color: #a855f7;
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-    }
-    .newsletter-button {
-      background: linear-gradient(135deg, #a855f7, #3b82f6);
-      padding: 1rem 2rem; border-radius: 0.75rem; border: none;
-      color: white; font-weight: bold; font-size: 1rem;
-      cursor: pointer; transition: all 0.3s;
-      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
-    }
-    .newsletter-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
-    }
-    .social-links-row {
-      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
-    }
-    .social-link-button {
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      padding: 0.75rem 1.5rem; border-radius: 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.8); text-decoration: none;
-      transition: all 0.3s; font-size: 0.95rem;
-    }
-    .social-link-button:hover {
-      background: rgba(168, 85, 247, 0.1);
-      border-color: rgba(168, 85, 247, 0.3);
-      transform: translateY(-2px); color: #a855f7;
-    }
-
-    /* ── Footer ── */
-    footer {
-      padding: 3rem 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.5);
-    }
-    .footer-content {
-      max-width: 1400px; margin: 0 auto;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 2rem;
-    }
-    .footer-text { color: rgba(255, 255, 255, 0.4); line-height: 1.8; font-size: 0.9rem; }
-    .social-links { display: flex; gap: 1.5rem; }
-    .social-link {
-      color: rgba(255, 255, 255, 0.4); transition: all 0.3s;
-    }
-    .social-link:hover { color: #a855f7; transform: translateY(-3px); }
-
-    /* ── Lightbox ── */
-    .lightbox {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.95); z-index: 9999;
-      align-items: center; justify-content: center; cursor: pointer;
-    }
-    .lightbox.active { display: flex; }
-    .lightbox img {
-      max-width: 92vw; max-height: 90vh; object-fit: contain;
-      border-radius: 0.5rem; box-shadow: 0 0 60px rgba(168, 85, 247, 0.3);
-    }
-    .lightbox-close {
-      position: absolute; top: 1.5rem; right: 2rem;
-      color: white; font-size: 2.5rem; cursor: pointer;
-      opacity: 0.7; transition: opacity 0.2s; background: none; border: none;
-    }
-    .lightbox-close:hover { opacity: 1; }
-    .lightbox-caption {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      color: rgba(255,255,255,0.7); font-size: 1rem; text-align: center;
-    }
-
-    /* ── Mobile ── */
-    @media (max-width: 768px) {
-      .nav-menu { display: none; }
-      .hero h1 { font-size: 3.5rem; }
-      .paths-grid { grid-template-columns: 1fr; }
-      .world-compare { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-      .footer-content { flex-direction: column; text-align: center; }
-      .newsletter-form { flex-direction: column; align-items: stretch; }
-      .newsletter-input { min-width: 100%; }
-      .section-title { font-size: 2.2rem; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pectus Games</title>
+<meta name="description" content="Pectus Games is an indie game studio in Toronto, Canada. Now making YORU: Eclipse of Tails.">
+<link rel="canonical" href="https://pectus.games/">
+<meta name="theme-color" content="#0b0b0f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pectus Games">
+<meta property="og:title" content="Pectus Games">
+<meta property="og:description" content="An indie game studio in Toronto, Canada. Now making YORU: Eclipse of Tails.">
+<meta property="og:url" content="https://pectus.games/">
+<meta property="og:image" content="https://pectus.games/assets/og/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pectus Games">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@PectusG">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/brand/icon-192.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
-  <!-- Canvas for particles -->
-  <canvas id="particleCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
-
-  <!-- ═══ NAV ═══ -->
-  <nav>
-    <div class="nav-container">
-      <a href="#" class="logo">
-        <div class="logo-icon">
-          <img src="assets/images/logo.png" alt="Yoru Logo">
-        </div>
-        <span class="logo-text">Yoru</span>
-      </a>
-      <ul class="nav-menu">
-        <li><a href="#hook">The Story</a></li>
-        <li><a href="#paths">Two Paths</a></li>
-        <li><a href="#world">The World</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-      </ul>
-      <span class="nav-badge">Coming Soon to Steam</span>
-    </div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <a class="brand" href="./" aria-label="Pectus Games, home"><img src="assets/brand/logo-128.png" alt="" width="40" height="40"><span>Pectus Games</span></a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="yoru/">YORU</a>
+    <a class="hide-sm" href="#studio">Studio</a>
+    <a class="pill" href="https://x.com/PectusG" rel="me noopener">Follow</a>
   </nav>
+</header>
 
-  <!-- ═══ HERO ═══ -->
-  <section class="hero">
-    <div class="hero-video-bg">
-      <video autoplay muted loop playsinline preload="metadata" poster="assets/images/light-world.png">
-        <source src="assets/videos/hero-video.mp4" type="video/mp4">
-      </video>
-      <div class="hero-video-overlay"></div>
-    </div>
-    <div class="hero-bg">
-      <div class="gradient-orb orb-1"></div>
-      <div class="gradient-orb orb-2"></div>
-      <div class="gradient-orb orb-3"></div>
-    </div>
-
-    <div class="hero-content">
-      <h1>Yoru</h1>
-      <p style="font-size: clamp(1.2rem, 3vw, 2rem); font-weight: 600; margin-top: -1.5rem; margin-bottom: 2rem; background: linear-gradient(135deg, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 0.08em;">Eclipse of Tails</p>
-      <p class="hero-description">
-        A narrative action-adventure about judging lost spirits in a Japanese purgatory, as a Nekomata who used to be a grandmother. An old woman named Tomoe and her granddaughter's cat Pera died together during an eclipse. In purgatory, they woke up as one being: Yoru, a two-tailed Nekomata with no memory of who she was. Ten yōkai bosses from real Japanese folklore are trapped here. You decide what happens to each one.
-      </p>
-      <div class="hero-buttons">
-        <a href="#hook" class="btn-primary">Discover the Tale</a>
-      </div>
+<main id="main">
+  <section class="doors" aria-label="Our games">
+    <a class="door door--yoru" href="yoru/">
+      <img class="door-media" src="assets/img/yoru-hero-poster.webp" alt="" width="1280" height="714" fetchpriority="high">
+      <video class="door-media" data-bg autoplay muted loop playsinline preload="auto" poster="assets/img/yoru-hero-poster.webp" aria-hidden="true"><source src="assets/video/yoru-hero.webm" type="video/webm"><source src="assets/video/yoru-hero.mp4" type="video/mp4"></video>
+      <span class="door-shade"></span>
+      <span class="eyebrow"><span class="dot"></span>Our main game &#183; In development</span>
+      <span class="wordmark" aria-hidden="true"><span>Y</span><svg viewBox="0 0 84 84" focusable="false"><circle cx="42" cy="42" r="38" fill="#7c5cff" opacity="0.18"/><circle cx="42" cy="42" r="33" fill="none" stroke="#f2f0eb" stroke-width="2.8"/><circle cx="51" cy="35" r="30" fill="#0b0b0f"/></svg><span>R</span><span>U</span></span>
+      <span class="subtitle" aria-hidden="true">Eclipse of Tails<span class="rule"></span></span>
+      <span class="sr-only">YORU: Eclipse of Tails.</span>
+      <span class="door-hook">Every monster was someone once.</span>
+      <span class="door-cta">Discover YORU<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <div class="seam" aria-hidden="true"><img src="assets/brand/logo-128.png" alt="" width="62" height="62"></div>
+    <div class="door door--next" role="group" aria-label="Our second game, coming December 3">
+      <span class="door-glow" aria-hidden="true"></span>
+      <svg class="power" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M7 5.5a8 8 0 1 0 10 0"/><path d="M12 3v8"/></svg>
+      <span class="eyebrow eyebrow--peach"><span class="dot dot--peach"></span>Our second game</span>
+      <p class="next-date">December 3</p>
+      <p class="next-line">One Friday that will not end.</p>
     </div>
   </section>
 
-  <!-- ═══ HOOK ═══ -->
-  <section id="hook" class="hook-section">
-    <div class="hook-container">
-      <h2 class="hook-title">Ten Spirits. Ten Sins. Your Call.</h2>
-      
-      <p class="hook-prose">
-        Purgatory is full of spirits who can't move on. Each one is trapped by a Kegare, a specific spiritual sin from Shinto belief. Rage, craving, pride, forgetting, clinging to the living world. Ten bosses, ten different sins. You can help them find peace, or you can make them pay. The choice changes everything.
-      </p>
-
-      <div class="hook-cards">
-        <div class="hook-card">
-          <h3 class="hook-card-title">Real Folklore, Real Sins</h3>
-          <p class="hook-card-text">
-            Every boss comes from actual Japanese mythology. The Oni is consumed by rage from betrayal. The Futakuchi-onna can't stop craving. The Yuki-onna refuses to let go of the living. Ten bosses, ten Kegare rooted in real Shinto spiritual tradition. You'll learn what broke them whether you choose mercy or punishment.
-          </p>
-        </div>
-        
-        <div class="hook-card">
-          <h3 class="hook-card-title">Two People in One Body</h3>
-          <p class="hook-card-text">
-            Yoru is two souls. Tomoe was a grandmother who lost her family in an earthquake and never recovered. Pera was her granddaughter's cat. They died together during an eclipse and woke up as one spirit in purgatory. Switch between them freely. Tomoe reads emotions, sees the grief behind the rage. The Nekomata form fights on instinct, fast and sharp.
-          </p>
-        </div>
-        
-        <div class="hook-card">
-          <h3 class="hook-card-title">Seven Endings</h3>
-          <p class="hook-card-text">
-            Every spirit you save puts a ring on your right tail. Every spirit you punish puts one on your left. The tails glow on Yoru's back at all times, visible to every soul in purgatory. Get five on each tail and the Eclipse opens a hidden final chapter. There are seven endings total, and the one you reach depends on the exact balance you carried through the whole game.
-          </p>
-        </div>
-      </div>
-
-      <div style="max-width: 800px; margin: 3rem auto 0; text-align: center;">
-        <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.85); line-height: 1.8;">
-          Yoru remembers nothing when the game starts. Each boss you free returns one memory of who Tomoe was. Ten bosses, ten memories. By the end, you know her whole story.
-        </p>
-      </div>
-    </div>
+  <section class="studio" id="studio" aria-labelledby="studio-title">
+    <h2 class="eyebrow eyebrow--muted" id="studio-title">Studio</h2>
+    <p>Pectus Games is an indie game studio in Toronto, Canada. We are making <a href="yoru/">YORU: Eclipse of Tails</a>, and a second game you will meet on December 3.</p>
   </section>
+</main>
 
-  <!-- ═══ TWO PATHS ═══ -->
-  <section id="paths" class="paths-section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">Your Choice</p>
-        <h2 class="section-title" style="font-size: 2.2rem;">Help Them Find the Light or Drag Them Through Darkness</h2>
-        <p class="section-subtitle">
-          Every boss is a spirit trapped by their own sin. You can help them understand what's holding them here and guide their soul to peace. Or you can punish them for what they became. Both free the soul. Only one lets you hear who they were before.
-        </p>
-      </div>
-
-      <div class="paths-grid">
-        <!-- Combat -->
-        <div class="path-card">
-          <div class="path-image">
-            <img src="assets/images/dark-world.png" alt="Path of Shadow">
-          </div>
-          <div class="path-body">
-            <h3 class="path-title dark">Torment</h3>
-            <p class="path-text">
-              They sinned. They suffered. And now they'll answer for it. Face them as Yoru the Nekomata spirit and force them to release through combat. Each punished soul drops a dark ring on your left tail. The world around you darkens: fog thickens, spirit lanterns ignite, whispers follow you. Your combat abilities grow. You can even summon the spirits you've punished through necromancy, calling them back to serve you. They deserved it, right?
-            </p>
-          </div>
-        </div>
-
-        <!-- Persuasion -->
-        <div class="path-card">
-          <div class="path-image">
-            <img src="assets/images/light-world.png" alt="Path of Light">
-          </div>
-          <div class="path-body">
-            <h3 class="path-title light">Mercy</h3>
-            <p class="path-text">
-              Transform into Tomoe, the grandmother. In her form, you can see emotional auras the Nekomata can't, the pain and regret radiating off the spirit. Enter the Echo Walk: step into their memories, piece together what happened to them, understand the sin that trapped them here. Get it right and they find peace. Their soul rises, a glowing ring appears on your right tail, and the world opens up around you. Fog lifts, moonlight breaks through, colours deepen. You heard their story. You helped them let go.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Single line about the Eclipse -->
-      <div style="text-align: center; margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-        <p style="font-size: 1.15rem; color: rgba(255,255,255,0.7); line-height: 1.8;">
-          Ten bosses. Ten sins. Each one leaves a ring on your tails, visible to every spirit in purgatory. They can see exactly how many souls you've saved and how many you've punished before you even get close. Fill both tails to five and the Eclipse triggers: a hidden final chapter where the balance you carried decides which of seven endings you reach.
-        </p>
-      </div>
+<footer class="site-foot">
+  <div class="foot-row">
+    <div class="foot-lead">
+      <p>News, clips and dev notes.</p>
+      <a class="pill pill--ghost" href="https://x.com/PectusG" rel="me noopener">Follow @PectusG on X</a>
     </div>
-  </section>
-
-  <!-- ═══ THE WORLD ═══ -->
-  <section id="world" class="world-section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">A World That Watches</p>
-        <h2 class="section-title">The Sky Tells You Who You've Been</h2>
-        <p class="section-subtitle">
-          There's no morality bar. The world itself tracks your choices across twenty-nine atmospheric states: time of day, weather, fog density, lighting, even how spirits react when they see you. Lean dark and twilight descends. Lean light and the world opens up. You don't need a UI element to know where you stand. Just look around.
-        </p>
-      </div>
-
-      <div class="world-compare">
-        <img src="assets/images/light-world.png" alt="Light path, warm and blooming">
-        <img src="assets/images/dark-world.png" alt="Dark path, fog and spirit lanterns">
-      </div>
-      <p class="world-caption">The same world, transformed by your choices. Light path (left) vs. dark path (right)</p>
-    </div>
-  </section>
-
-  <!-- ═══ GALLERY ═══ -->
-  <section id="gallery" class="gallery-section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">In-Game Screenshots</p>
-        <h2 class="section-title">From the Current Build</h2>
-      </div>
-
-      <div class="gallery-grid">
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot1.png" alt="Yoru exploring a blooming meadow">
-          <div class="gallery-caption">
-            <h4>Exploration, Light Path</h4>
-            <p>Flowers, waterfalls, warm light. The world responds to mercy.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot-tomoe.png" alt="Tomoe, the grandmother form">
-          <div class="gallery-caption">
-            <h4>Tomoe, the Grandmother</h4>
-            <p>Transform into the old woman Yoru used to be. She sees what the Nekomata cannot.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot-combat.png" alt="Yoru fighting the Nopperabo near a Tori Gate">
-          <div class="gallery-caption">
-            <h4>Combat</h4>
-            <p>Yoru leaps into battle with the Nopperabō. A Tori Gate watches from the distance.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot-nopperabo.png" alt="The Nopperabo, a faceless spirit by the river">
-          <div class="gallery-caption">
-            <h4>A Lost Spirit</h4>
-            <p>The Nopperabō. Faceless, grieving, waiting for someone to see what's underneath.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot-combat2.png" alt="Combat with the Nopperabo">
-          <div class="gallery-caption">
-            <h4>Combat</h4>
-            <p>Yoru stands her ground as the Nopperabō towers over her, mid attack.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot2.png" alt="Yoru running through twilight with glowing rings">
-          <div class="gallery-caption">
-            <h4>Twilight Run</h4>
-            <p>Yoru on the move. Red rings burning, eclipse crescent overhead.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot-exploration.png" alt="Yoru and the Nopperabo in the world">
-          <div class="gallery-caption">
-            <h4>Two Worlds Collide</h4>
-            <p>A stone lantern, a Nekomata spirit, and a faceless yōkai. Purgatory in one frame.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot4.png" alt="Yoru in deep shadow with burning tail">
-          <div class="gallery-caption">
-            <h4>Deep Into the Dark Path</h4>
-            <p>Spirit lanterns and burning rings. Beautiful, but eerie.</p>
-          </div>
-        </div>
-
-        <div class="gallery-item" onclick="openLightbox(this)">
-          <img src="assets/images/screenshot5.png" alt="Yoru under the Eclipse with both tails lit">
-          <div class="gallery-caption">
-            <h4>The Eclipse</h4>
-            <p>Both tails full. The final chapter begins.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ STAY UPDATED ═══ -->
-  <section id="updates" class="stay-updated-section">
-    <div class="stay-updated-container">
-      <h2 class="stay-updated-title">Stay Updated</h2>
-      <p class="stay-updated-subtitle">
-        YORU: Eclipse of Tails is in active development by Pectus Games, a solo indie studio in Ontario, Canada. Built in Unity 6. Targeting Q1 2028. Sign up for news on the Steam page launch, demo, and release.
-      </p>
-
-      <form class="newsletter-form" onsubmit="alert('Newsletter signup will be connected soon!'); return false;">
-        <input type="email" class="newsletter-input" placeholder="Enter your email" required>
-        <button type="submit" class="newsletter-button">Notify Me</button>
-      </form>
-
-      <div class="social-links-row">
-        <a href="https://x.com/PectusG" target="_blank" class="social-link-button">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          X (Twitter)
-        </a>
-        <a href="https://github.com/pectus-g" target="_blank" class="social-link-button">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-          GitHub
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ FOOTER ═══ -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-text">
-        © 2026 Pectus Games<br>
-        Hazel · Ontario, Canada<br>
-        Unity 6 · Built-in Render Pipeline
-      </div>
-      <div class="social-links">
-        <a href="https://github.com/pectus-g" target="_blank" class="social-link" title="GitHub">
-          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-        </a>
-        <a href="https://x.com/PectusG" target="_blank" class="social-link" title="X (Twitter)">
-          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <img id="lightbox-img" src="" alt="">
-    <div class="lightbox-caption" id="lightbox-caption"></div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="yoru/">YORU</a>
+      <a href="#studio">Studio</a>
+      <a href="https://x.com/PectusG" rel="me noopener">X</a>
+    </nav>
   </div>
-
-  <script>
-    function openLightbox(el) {
-      const img = el.querySelector('img');
-      const caption = el.querySelector('.gallery-caption h4');
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox-caption').textContent = caption ? caption.textContent : '';
-      document.getElementById('lightbox').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
-  </script>
-
-  <script>
-    // Particle System
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    document.addEventListener('mousemove', (e) => {
-      if(Math.random() > 0.85) {
-        const side = e.clientX < window.innerWidth / 2 ? 'purple' : 'blue';
-        particles.push({
-          x: e.clientX, y: e.clientY,
-          vx: (Math.random() - 0.5) * 2,
-          vy: (Math.random() - 0.5) * 2 - 0.5,
-          size: Math.random() * 3 + 1,
-          life: 60, maxLife: 60,
-          color: side === 'purple'
-            ? 'rgba(168, 85, 247, 0.5)'
-            : 'rgba(59, 130, 246, 0.5)'
-        });
-      }
-    });
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles = particles.filter(p => {
-        p.x += p.vx; p.y += p.vy; p.life--;
-        if(p.life <= 0) return false;
-        ctx.globalAlpha = p.life / p.maxLife;
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        return true;
-      });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-  </script>
+  <p class="bigmark" aria-hidden="true">PECTUS GAMES</p>
+  <div class="foot-meta"><span>&#169; <span data-year>2026</span> Pectus Games</span><span>Toronto, Ontario</span></div>
+</footer>
+<script src="assets/js/site.js" defer></script>
 </body>
 </html>
