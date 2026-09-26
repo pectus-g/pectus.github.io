@@ -15,14 +15,24 @@
       return;
     }
     video.muted = true;
+    video.inView = true;
     tryPlay(video);
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
+          video.inView = entry.isIntersecting;
           if (entry.isIntersecting) { tryPlay(video); } else { video.pause(); }
         });
       }, { threshold: 0.05 }).observe(video);
     }
+  });
+
+  // A tab opened in the background starts its videos when it comes to the front.
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden || reduceMotion) { return; }
+    Array.prototype.forEach.call(videos, function (video) {
+      if (video.inView && video.paused) { tryPlay(video); }
+    });
   });
 
   var year = document.querySelector("[data-year]");
