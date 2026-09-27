@@ -105,31 +105,40 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet-soft); o
 .subtitle { display: flex; align-items: center; gap: 18px; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.55em; text-transform: uppercase; color: var(--fg-3); }
 .subtitle .rule { width: 56px; height: 1px; background: var(--muted); flex: none; }
 
-/* Home: the two doors */
-.doors { position: relative; display: flex; height: clamp(640px, 100svh, 960px); border-bottom: 1px solid var(--line-2); }
+/* Home: the two doors. The seam rests in the middle; the hovered game slides it over and takes the room. */
+.doors { --split: 50%; --door-ease: cubic-bezier(0.22, 0.61, 0.36, 1); --body-w: min(480px, calc(38vw - var(--gutter) - 24px)); position: relative; display: flex; height: clamp(640px, 100svh, 960px); border-bottom: 1px solid var(--line-2); }
 .door { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 20px; padding: 64px var(--gutter) 72px; color: var(--fg); text-decoration: none; }
 .door > * { position: relative; }
 .door > .door-media, .door > .door-shade { position: absolute; }
 .door-media { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.door-body { display: flex; flex-direction: column; gap: 20px; width: var(--body-w); }
+.door::after { content: ""; position: absolute; inset: 0; z-index: 2; background: rgba(11, 11, 15, 0.5); opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
 .door-shade { left: 0; right: 0; bottom: 0; height: 62%; background: linear-gradient(to bottom, rgba(11, 11, 15, 0), rgba(11, 11, 15, 0.95)); pointer-events: none; }
-.door--yoru { flex: 0 0 60%; background: var(--bg-night); }
+.door--yoru { flex: 0 0 var(--split); background: var(--bg-night); transition: flex-basis 0.75s var(--door-ease); }
 .door--yoru .door-media { opacity: 0.84; transition: transform 1.2s ease; }
 .door--yoru:hover .door-media { transform: scale(1.02); }
 .door--yoru .wordmark { font-size: clamp(64px, 7.2vw, 104px); }
 .door--yoru .subtitle { font-size: 12px; gap: 14px; }
 .door--yoru .subtitle .rule { width: 48px; }
-.door-hook { margin: 6px 0 0; font-size: clamp(24px, 2.4vw, 34px); font-weight: 200; line-height: 1.15; letter-spacing: -0.01em; }
+.door-hook { margin: 6px 0 0; font-size: clamp(24px, 2.4vw, 34px); font-weight: 200; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
 .door-cta { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; }
 .door-cta svg { width: 18px; height: 18px; transition: transform 0.25s ease; }
 .door:hover .door-cta svg { transform: translateX(4px); }
-.seam { position: absolute; left: 60%; top: 50%; z-index: 3; width: 72px; height: 72px; transform: translate(-50%, -50%); display: grid; place-items: center; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+.seam { position: absolute; left: var(--split); top: 50%; z-index: 3; transition: left 0.75s var(--door-ease); width: 72px; height: 72px; transform: translate(-50%, -50%); display: grid; place-items: center; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
 .seam img { width: 62px; height: 62px; border-radius: 50%; }
 
 /* Home: the SHABBAT MODE door. Gameplay on top, the name on a Friday-night plum below. */
-.door--sm { flex: 1 1 40%; background: var(--sm-night); border-left: 1px solid var(--line-2); }
+.door--sm { flex: 1 1 0; min-width: 0; background: var(--sm-night); border-left: 1px solid var(--line-2); }
+.door--sm .door-body { align-self: flex-end; }
+@media (hover: hover) and (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+  .doors:has(.door--yoru:hover), .doors:has(.door--yoru:focus-visible) { --split: 62%; }
+  .doors:has(.door--sm:hover), .doors:has(.door--sm:focus-visible) { --split: 38%; }
+  .doors:has(.door--yoru:hover) .door--sm::after, .doors:has(.door--yoru:focus-visible) .door--sm::after,
+  .doors:has(.door--sm:hover) .door--yoru::after, .doors:has(.door--sm:focus-visible) .door--yoru::after { opacity: 1; }
+}
 .door--sm::before { content: ""; position: absolute; right: -160px; bottom: -160px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 185, 153, 0.14), rgba(232, 185, 153, 0) 66%); pointer-events: none; }
 .door > .sm-media { position: absolute; left: 0; right: 0; top: 0; height: 58%; overflow: hidden; }
-.sm-media .door-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; }
+.sm-media .door-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 75%; transition: transform 1.2s ease; }
 .door--sm:hover .sm-media .door-media { transform: scale(1.02); }
 .sm-media::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%; background: linear-gradient(to bottom, rgba(23, 18, 29, 0), var(--sm-night)); }
 .sm-logo { --logo-w: clamp(250px, 25vw, 380px); width: var(--logo-w); height: auto; margin: 2px 0 -6px calc(var(--logo-w) * -0.035); }
@@ -260,12 +269,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet-soft); o
 @media (max-width: 860px) {
   .doors { flex-direction: column; height: auto; }
   .door--yoru { flex: none; min-height: 78svh; padding-top: 120px; padding-bottom: 56px; }
+  .door-body { width: auto; }
+  .door--sm .door-body { align-self: stretch; }
   .door--sm { flex: none; padding-top: calc(60vw + 8px); padding-bottom: 56px; border-left: 0; border-top: 1px solid var(--line-2); }
   .door > .sm-media { height: 60vw; }
   .sm-logo { --logo-w: min(76vw, 360px); }
   .sm-hero { padding-top: 124px; }
   .sm-cards { grid-template-columns: minmax(0, 1fr); gap: 44px; }
-  .seam { position: relative; left: auto; top: auto; transform: none; width: 64px; height: 64px; margin: -32px auto; }
+  .seam { position: relative; left: auto; top: auto; transform: none; transition: none; width: 64px; height: 64px; margin: -32px auto; }
   .seam img { width: 54px; height: 54px; }
   .studio { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-top: 80px; }
   .studio h2 { padding-top: 0; }
